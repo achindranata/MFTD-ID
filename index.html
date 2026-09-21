@@ -10,26 +10,34 @@
     --font: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     --mono: "Cascadia Mono", "Consolas", "Segoe UI Mono", ui-monospace, monospace;
 
-    --bg: #fafafc;
+    --bg: #f7fafd;
     --surface: #ffffff;
-    --surface-alt: #f1f2f7;
+    --surface-alt: #e6edf6;
+    --surface-tint: #f1f6fc;
     --ink: #1b1b1f;
     --ink-soft: #43434d;
     --ink-faint: #6e6e7a;
     --line: rgba(27,27,31,.10);
     --line-strong: rgba(27,27,31,.20);
 
-    --accent: #7a5af8;
-    --accent-soft: #f3f0fe;
-    --accent-deep: #5b3fd4;
+    --accent: #0f6cbd;
+    --accent-soft: #dbe8f8;
+    --accent-deep: #0a4f8f;
     --link: #0f5fa8;
 
     --amber: #b54708;
-    --amber-soft: #fdf6ec;
+    --amber-soft: #fbecd7;
     --green: #0a7d54;
-    --green-soft: #eef8f4;
+    --green-soft: #d9efe5;
     --plum: #8e2de2;
-    --plum-soft: #f6f0fd;
+    --plum-soft: #eee0fb;
+    --c-mag: #c2007a;
+    --c-vio: #7a5af8;
+    --c-vio-deep: #5b3fd4;
+    --c-tea: #0a8f96;
+    --c-mag-soft: #fbe2ef;
+    --c-vio-soft: #e6e0fc;
+    --c-tea-soft: #d8f0f1;
 
     --radius: 12px;
     --shadow: 0 22px 60px rgba(30,20,80,.09), 0 2px 8px rgba(30,20,80,.04);
@@ -40,14 +48,15 @@
       --bg: #0b1020;
       --surface: #101731;
       --surface-alt: #141c38;
+      --surface-tint: #161d3a;
       --ink: #f4f4f8;
       --ink-soft: rgba(255,255,255,.78);
       --ink-faint: rgba(255,255,255,.60);
       --line: rgba(255,255,255,.12);
       --line-strong: rgba(255,255,255,.22);
-      --accent: #a892ff;
-      --accent-soft: rgba(122,90,248,.14);
-      --accent-deep: #c7b8ff;
+      --accent: #6fb3ee;
+      --accent-soft: rgba(15,108,189,.22);
+      --accent-deep: #a8d4f7;
       --link: #7fb6ec;
       --amber: #e8b87a;
       --amber-soft: rgba(181,71,8,.16);
@@ -55,6 +64,13 @@
       --green-soft: rgba(10,125,84,.16);
       --plum: #c5a3ee;
       --plum-soft: rgba(142,45,226,.14);
+      --c-mag: #f08fc4;
+      --c-vio: #a892ff;
+      --c-vio-deep: #c7b8ff;
+      --c-tea: #5fd3d8;
+      --c-mag-soft: rgba(227,0,140,.16);
+      --c-vio-soft: rgba(122,90,248,.22);
+      --c-tea-soft: rgba(10,143,150,.18);
       --shadow: 0 22px 60px rgba(0,0,0,.45);
     }
   }
@@ -261,12 +277,13 @@
   }
   @media (prefers-color-scheme: dark) {
     tr.note-row > td, tr.note-row > th {
-      background: rgba(15,108,189,.18);
-      border-block-end-color: rgba(15,108,189,.32);
+      background: rgba(122,90,248,.18);
+      border-block-end-color: rgba(122,90,248,.32);
     }
   }
   @media print {
-    tr.note-row > td { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tr.note-row > td, thead th, tbody td:first-child, td.yes, td.no
+      { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
   .sec-head .badge {
     font-size: .7rem;
@@ -295,7 +312,12 @@
     color: var(--ink);
     letter-spacing: -.015em;
     margin: 1.5rem 0 .5rem;
+    padding: .34rem .7rem;
+    border-radius: 8px;
+    background: var(--accent-soft);
+    color: var(--accent-deep);
   }
+
   h4 {
     font-size: .88rem;
     font-weight: 600;
@@ -333,17 +355,21 @@
     text-transform: uppercase;
     margin-block-end: .35rem;
   }
-  .callout.key { background: var(--accent-soft); border-inline-start: 3px solid var(--accent); }
+  .callout.key { background: var(--accent-soft); }
   .callout.key .tag { color: var(--accent-deep); }
-  .callout.watch { background: var(--amber-soft); border-inline-start: 3px solid var(--amber); }
+  .callout.watch { background: var(--amber-soft); }
   .callout.watch .tag { color: var(--amber); }
-  .callout.verify { background: var(--green-soft); border-inline-start: 3px solid var(--green); }
+  .callout.verify { background: var(--green-soft); }
   .callout.verify .tag { color: var(--green); }
-  .callout.note { background: var(--plum-soft); border-inline-start: 3px solid var(--plum); }
+  .callout.note { background: var(--plum-soft); }
   .callout.note .tag { color: var(--plum); }
 
   /* ---------- tables ---------- */
-  .table-wrap { overflow-x: auto; margin-block: 1rem 1.2rem; }
+  .table-wrap {
+    overflow-x: auto; margin-block: 1rem 1.3rem;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); box-shadow: 0 8px 26px rgba(30,20,80,.06);
+  }
   table {
     border-collapse: collapse;
     width: 100%;
@@ -367,16 +393,819 @@
     border-block-end: 1px solid var(--line);
   }
   thead th {
-    background: var(--surface-alt);
-    font-weight: 600;
-    border-block-end: 1px solid var(--line-strong);
+    background: var(--c-vio-soft);
+    font-weight: 700;
+    font-size: .72rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--c-vio-deep);
+    border-block-end: 2px solid var(--c-vio);
     white-space: nowrap;
   }
+  tbody { background: #faf8ff; }
+  tbody tr:nth-child(even) { background: #f1ecfd; }
+  @media (prefers-color-scheme: dark) {
+    tbody { background: rgba(122,90,248,.05); }
+    tbody tr:nth-child(even) { background: rgba(122,90,248,.11); }
+  }
   tbody tr:last-child td { border-block-end: none; }
-  td.yes { color: var(--green); font-weight: 600; }
-  td.no { color: var(--ink-faint); }
+
+  /* the left column is tinted only where it is a feature/label column */
+  .table-wrap.lc tbody td:first-child {
+    font-weight: 600; color: var(--c-vio-deep); background: var(--c-vio-soft);
+  }
+  .table-wrap:not(.lc) tbody td:first-child { font-weight: 600; color: var(--ink); }
+
+  /* highlight cells keep their own meaning-bearing colour */
+  td.yes { color: var(--green); font-weight: 600; background: var(--green-soft); }
+  td.no { color: var(--ink-faint); background: var(--surface-alt); }
+  td.hl, td.key { color: var(--c-vio-deep); font-weight: 600; background: var(--c-vio-soft); }
+  /* a flagged row keeps its own highlight across every cell */
+  .table-wrap.lc tbody tr.note-row td:first-child { background: #eaf3fb; color: var(--ink); }
+  @media (prefers-color-scheme: dark) {
+    .table-wrap.lc tbody tr.note-row td:first-child { background: rgba(122,90,248,.18); color: var(--ink); }
+  }
+
 
   /* ---------- tree ---------- */
+  /* ================= DIAGRAMS & MOCK-UPS ================= */
+  .dg { margin-block: 1.3rem 1.6rem; position: relative; }
+  .dg-cap {
+    display: flex; align-items: baseline; gap: .55rem;
+    font-size: .72rem; font-weight: 600; color: var(--ink-soft);
+    margin-block-end: .75rem; padding-inline-start: .6rem;
+    
+  }
+  .dg-cap b {
+    font-size: .62rem; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .dg-foot { margin-block-start: .6rem; font-size: .72rem; color: var(--ink-faint); }
+
+  /* ---------- pipeline: numbered rail + cards ---------- */
+  .pipe { display: grid; gap: .55rem; }
+  .pipe.p5 { grid-template-columns: repeat(5, 1fr); }
+  .pipe.p4 { grid-template-columns: repeat(4, 1fr); }
+  .pipe.p3 { grid-template-columns: repeat(3, 1fr); }
+  .pnode { position: relative; display: flex; flex-direction: column; }
+  .pnode .rail {
+    display: flex; align-items: center; gap: .4rem; margin-block-end: .4rem;
+  }
+  .pnode .dot {
+    flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%;
+    background: var(--surface); border: 1.5px solid var(--accent);
+    color: var(--accent-deep); font-size: .68rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pnode .track { flex: 1; height: 1.5px; background: var(--line-strong); }
+  .pnode:last-child .track { background: linear-gradient(90deg, var(--line-strong), transparent); }
+  .pnode .body {
+    flex: 1; border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); padding: .7rem .8rem .75rem;
+    display: flex; flex-direction: column; gap: .25rem;
+  }
+  .pnode .body b { font-size: .83rem; font-weight: 600; letter-spacing: -.012em; }
+  .pnode .body span { font-size: .75rem; line-height: 1.45; color: var(--ink-faint); }
+  .pnode .body i {
+    font-style: normal; font-size: .65rem; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--accent-deep);
+  }
+  .pnode.key .dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .pnode.key .body { background: var(--accent-soft); border-color: rgba(15,108,189,.30); }
+  .pnode.warm .dot { background: var(--amber); border-color: var(--amber); color: #fff; }
+  .pnode.warm .body { background: var(--amber-soft); border-color: rgba(181,71,8,.22); }
+  .pnode.warm .body i { color: var(--amber); }
+  .pnode.cool .dot { background: var(--green); border-color: var(--green); color: #fff; }
+  .pnode.cool .body { background: var(--green-soft); border-color: rgba(10,125,84,.22); }
+  .pnode.cool .body i { color: var(--green); }
+
+  /* ---------- petal / quadrant layout ---------- */
+  .petals { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+  .petals.p5 { grid-template-columns: repeat(5, 1fr); }
+  .petal {
+    border: 1px solid rgba(15,108,189,.22); background: var(--accent-soft);
+    border-radius: var(--radius); background: var(--surface);
+    padding: .75rem .8rem .8rem; display: flex; flex-direction: column; gap: .3rem;
+  }
+  .petal .k {
+    font-size: .62rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .petal b { font-size: .88rem; font-weight: 600; letter-spacing: -.015em; }
+  .petal span { font-size: .75rem; line-height: 1.45; color: var(--ink-faint); }
+  .petal em {
+    font-style: normal; font-size: .72rem; line-height: 1.4; color: var(--ink-soft);
+    padding-block-start: .35rem; margin-block-start: .1rem;
+    border-block-start: 1px dashed var(--line);
+  }
+  .petals .petal:nth-child(1) { background: var(--accent-soft); border-color: rgba(15,108,189,.26); }
+  .petals .petal:nth-child(1) .k { color: var(--accent-deep); }
+  .petals .petal:nth-child(2) { background: var(--c-vio-soft); border-color: rgba(122,90,248,.24); }
+  .petals .petal:nth-child(2) .k { color: var(--c-vio); }
+  .petals .petal:nth-child(3) { background: var(--c-tea-soft); border-color: rgba(10,143,150,.24); }
+  .petals .petal:nth-child(3) .k { color: var(--c-tea); }
+  .petals .petal:nth-child(4) { background: var(--green-soft); border-color: rgba(10,125,84,.22); }
+  .petals .petal:nth-child(4) .k { color: var(--green); }
+  .petals .petal:nth-child(5) { background: var(--plum-soft); border-color: rgba(142,45,226,.22); }
+  .petals .petal:nth-child(5) .k { color: var(--plum); }
+  .petal b { color: var(--ink); }
+
+  /* ---------- triad (design layer) ---------- */
+  .triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; position: relative; }
+  .triad .t {
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); padding: .8rem .85rem .85rem;
+    display: flex; flex-direction: column; gap: .35rem;
+  }
+  .triad .t .ico {
+    width: 1.9rem; height: 1.9rem; border-radius: 8px;
+    background: var(--accent-soft); border: 1px solid rgba(15,108,189,.24);
+    color: var(--accent-deep); font-size: .82rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .triad .t b { font-size: .9rem; font-weight: 600; letter-spacing: -.015em; }
+  .triad .t span { font-size: .77rem; line-height: 1.5; color: var(--ink-faint); }
+  .triad-base {
+    margin-block-start: .5rem; border: 1px dashed rgba(15,108,189,.32); border-radius: var(--radius);
+    background: var(--accent-soft); padding: .55rem .85rem;
+    font-size: .76rem; color: var(--ink-soft); text-align: center;
+  }
+
+  /* ---------- harness columns ---------- */
+  .harn { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto 1fr; gap: .7rem; }
+  .harn .h {
+    border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+    background: var(--surface-tint);
+    grid-row: span 2; display: grid; grid-template-rows: subgrid;
+  }
+  @supports not (grid-template-rows: subgrid) {
+    .harn { grid-template-rows: none; }
+    .harn .h { grid-row: auto; display: flex; flex-direction: column; }
+    .harn .h > header { min-height: 6.4rem; }
+  }
+  .harn .h > header {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: .7rem .85rem .6rem; border-block-end: 1px solid rgba(15,108,189,.20);
+    background: var(--accent-soft);
+  }
+  .harn .h .tag2 {
+    font-size: .6rem; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .harn .h h5 { margin: .18rem 0 0; font-size: .92rem; font-weight: 600; letter-spacing: -.018em; }
+  .harn .h h5 + em {
+    display: block; font-style: normal; font-size: .73rem; font-weight: 600;
+    color: var(--accent-deep); margin-block-start: .15rem;
+  }
+  .harn .h ul { list-style: none; margin: 0; padding: .55rem .85rem .7rem; }
+  .harn .h li {
+    display: grid; grid-template-columns: 6.6rem 1fr; gap: .5rem;
+    padding-block: .34rem; border-block-end: 1px dotted var(--line);
+    font-size: .77rem; line-height: 1.4;
+  }
+  .harn .h li:last-child { border-block-end: none; }
+  .harn .h li b {
+    font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-faint); padding-block-start: .12rem;
+  }
+  .harn .h li span { color: var(--ink-soft); }
+  .harn .h li.lic span { font-weight: 600; color: var(--ink); }
+  .harn .h.on { border-color: rgba(15,108,189,.34); box-shadow: 0 10px 28px rgba(15,108,189,.10); }
+  .harn .h.on > header { background: var(--accent-soft); border-block-end-color: rgba(15,108,189,.26); }
+
+  /* ---------- CSS-only switch (no script) ---------- */
+  .sw-in { position: absolute; opacity: 0; pointer-events: none; }
+  .sw-bar { display: flex; gap: .4rem; margin-block-end: .7rem; flex-wrap: wrap; }
+  .sw-bar label {
+    font-size: .76rem; font-weight: 600; color: var(--ink-faint);
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: .3rem .85rem; cursor: pointer;
+    transition: all .25s cubic-bezier(.22,1,.36,1);
+  }
+  .sw-bar label:hover { border-color: var(--accent); color: var(--accent-deep); }
+  .sw-pane { display: none; }
+
+  /* Agent Builder tier switch */
+  #ab-basic:checked ~ .sw-bar label[for="ab-basic"],
+  #ab-prem:checked  ~ .sw-bar label[for="ab-prem"] {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+  #ab-basic:checked ~ .sw-body .pane-basic,
+  #ab-prem:checked  ~ .sw-body .pane-prem { display: block; }
+
+
+  /* ---------- app window mock-up ---------- */
+  .win {
+    border: 1px solid var(--line-strong); border-radius: 10px; overflow: hidden;
+    background: var(--surface); box-shadow: 0 14px 38px rgba(30,20,80,.10);
+  }
+  .win .bar {
+    display: flex; align-items: center; gap: .45rem;
+    padding: .45rem .7rem; background: var(--surface-alt);
+    border-block-end: 1px solid var(--line);
+  }
+  .win .bar i { width: .55rem; height: .55rem; border-radius: 50%; background: var(--line-strong); }
+  .win .bar b {
+    margin-inline-start: .35rem; font-size: .68rem; font-weight: 600;
+    letter-spacing: .04em; color: var(--ink-faint);
+  }
+  .win .bar .pill {
+    margin-inline-start: auto; font-size: .6rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent-deep);
+    background: var(--accent-soft); border: 1px solid rgba(15,108,189,.24);
+    border-radius: 999px; padding: .12rem .5rem;
+  }
+  .win .stage { padding: .8rem .9rem; min-height: 12.5rem; }
+  .win.split .stage { display: grid; grid-template-columns: 1fr 15rem; gap: 0; padding: 0; }
+  .win.split .left { padding: .8rem .9rem; }
+  .win.split .right {
+    padding: .7rem .8rem; border-inline-start: 1px solid var(--line);
+    background: var(--surface-alt);
+  }
+
+  /* chat bubbles */
+  .bub { display: flex; margin-block: .4rem; }
+  .bub .t {
+    max-width: 82%; font-size: .78rem; line-height: 1.5;
+    padding: .5rem .75rem; border-radius: 14px;
+  }
+  .bub.me { justify-content: flex-end; }
+  .bub.me .t { background: var(--accent); color: #fff; border-end-end-radius: 5px; }
+  .bub.ai .t {
+    background: var(--surface-alt); color: var(--ink-soft);
+    border: 1px solid var(--line); border-end-start-radius: 5px;
+  }
+  .bub .t small { display: block; margin-block-start: .25rem; font-size: .66rem; opacity: .75; }
+
+  /* typing dots */
+  .typing { display: inline-flex; gap: .2rem; align-items: center; }
+  .typing i {
+    width: .3rem; height: .3rem; border-radius: 50%; background: var(--ink-faint);
+    animation: tyb 1.3s infinite;
+  }
+  .typing i:nth-child(2) { animation-delay: .18s; }
+  .typing i:nth-child(3) { animation-delay: .36s; }
+  @keyframes tyb { 0%,60%,100% { opacity: .25; transform: translateY(0); }
+                   30% { opacity: 1; transform: translateY(-2px); } }
+
+  /* staged reveal — chat turns and task steps */
+  .stg { opacity: 0; animation: stgIn .55s cubic-bezier(.22,1,.36,1) forwards; }
+  @keyframes stgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .d1 { animation-delay: .25s; } .d2 { animation-delay: 1.0s; }
+  .d3 { animation-delay: 1.8s; } .d4 { animation-delay: 2.6s; }
+  .d5 { animation-delay: 3.4s; } .d6 { animation-delay: 4.2s; }
+  .d7 { animation-delay: 5.0s; } .d8 { animation-delay: 5.8s; }
+
+  /* task step list (Cowork right pane) */
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .steps li {
+    display: flex; gap: .45rem; align-items: flex-start;
+    font-size: .73rem; line-height: 1.4; color: var(--ink-soft);
+    padding-block: .3rem; border-block-end: 1px dotted var(--line);
+  }
+  .steps li:last-child { border-block-end: none; }
+  .steps .ck {
+    flex: none; width: .85rem; height: .85rem; border-radius: 50%;
+    border: 1.5px solid var(--green); color: var(--green);
+    font-size: .52rem; line-height: .78rem; text-align: center; margin-block-start: .15rem;
+  }
+  .steps .ck.run { border-color: var(--accent); color: var(--accent); }
+  .steps .ck.wait { border-color: var(--line-strong); color: transparent; }
+  .rp-h {
+    font-size: .6rem; font-weight: 700; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--ink-faint); margin-block-end: .45rem;
+  }
+  .prog { height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; margin-block: .5rem .6rem; }
+  .prog i { display: block; height: 100%; width: 0; background: var(--accent); animation: grow 6s ease-out forwards; }
+  @keyframes grow { to { width: 72%; } }
+  .outf {
+    margin-block-start: .55rem; padding-block-start: .5rem; border-block-start: 1px solid var(--line);
+  }
+  .outf b { font-size: .68rem; color: var(--ink-soft); display: block; margin-block-end: .2rem; }
+  .outf span {
+    display: block; font-size: .71rem; color: var(--ink-faint);
+    padding-block: .15rem;
+  }
+
+  /* ---------- Agent Builder mock ---------- */
+  .ab { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .ab .cfg { padding: .75rem .85rem; }
+  .ab .prev {
+    padding: .75rem .85rem; border-inline-start: 1px solid var(--line);
+    background: var(--surface-alt);
+  }
+  .fld2 { margin-block-end: .55rem; }
+  .fld2 b {
+    display: block; font-size: .6rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-faint); margin-block-end: .2rem;
+  }
+  .fld2 .inp {
+    border: 1px solid var(--line); border-radius: 5px; background: var(--surface);
+    padding: .35rem .55rem; font-size: .76rem; color: var(--ink-soft); min-height: 1.75rem;
+  }
+  .fld2 .inp.multi { min-height: 3.4rem; line-height: 1.5; }
+  .chips { display: flex; flex-wrap: wrap; gap: .3rem; }
+  .chip {
+    font-size: .68rem; font-weight: 600; border-radius: 999px; padding: .2rem .55rem;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+  }
+  .chip.on { background: var(--accent-soft); border-color: rgba(15,108,189,.28); color: var(--accent-deep); }
+  .chip.off { color: var(--ink-faint); opacity: .55; text-decoration: line-through; }
+
+  /* ---------- three-stage flow (in / do / out) ---------- */
+  .flow3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: .55rem; align-items: stretch; }
+  .flow3 .st {
+    position: relative; border: 1px solid rgba(15,108,189,.20); border-radius: var(--radius);
+    background: var(--surface-tint); display: flex; flex-direction: column; overflow: hidden;
+  }
+  .flow3 .st > header {
+    display: flex; align-items: baseline; gap: .45rem;
+    padding: .5rem .8rem; background: var(--accent-soft);
+    border-block-end: 1px solid rgba(15,108,189,.22);
+  }
+  .flow3 .st > header .n {
+    font-size: .62rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent-deep);
+  }
+  .flow3 .st > header b { font-size: .9rem; font-weight: 600; letter-spacing: -.015em; }
+  .flow3 .io {
+    display: flex; align-items: center; gap: .35rem; padding: .5rem .8rem 0;
+    font-size: .68rem; color: var(--ink-faint);
+  }
+  .flow3 .io .lbl {
+    font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-faint); flex: none;
+  }
+  .flow3 .st p { margin: .5rem 0 .6rem; padding: 0 .8rem; font-size: .76rem; line-height: 1.5; color: var(--ink-soft); }
+  .flow3 .out {
+    margin-block-start: auto; padding: .5rem .8rem; background: var(--accent-soft);
+    border-block-start: 1px solid rgba(15,108,189,.22);
+    font-size: .74rem; font-weight: 600; color: var(--accent-deep);
+    display: flex; align-items: center; gap: .4rem;
+  }
+  .flow3 .out .lbl { color: var(--accent-deep); opacity: .72; }
+  .flow3 .st + .st::before {
+    content: ""; position: absolute; inset-inline-start: -.46rem; inset-block-start: 1.05rem;
+    width: .38rem; height: .38rem; border-block-start: 2px solid var(--line-strong);
+    border-inline-end: 2px solid var(--line-strong); transform: rotate(45deg);
+  }
+
+  .triad .t:nth-child(2) .ico { background: var(--c-vio-soft); border-color: rgba(122,90,248,.26); color: var(--c-vio); }
+  .triad .t:nth-child(3) .ico { background: var(--c-tea-soft); border-color: rgba(10,143,150,.26); color: var(--c-tea); }
+  .triad .t:nth-child(1) { background: var(--accent-soft); border-color: rgba(15,108,189,.24); }
+  .triad .t:nth-child(2) { background: var(--c-vio-soft); border-color: rgba(122,90,248,.22); }
+  .triad .t:nth-child(3) { background: var(--c-tea-soft); border-color: rgba(10,143,150,.22); }
+
+  /* ---------- artefact cards ---------- */
+  .arts { display: grid; grid-template-columns: repeat(2, 1fr); gap: .55rem; }
+  .arts .a {
+    position: relative; overflow: hidden;
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+    padding: .7rem .8rem .75rem; display: flex; flex-direction: column; gap: .35rem;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  .arts .a:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(30,20,80,.10); }
+  .arts .a.wide { grid-column: 1 / -1; }
+  .arts .a .fn {
+    font-family: var(--mono); font-size: .76rem; font-weight: 700;
+    display: inline-flex; align-items: center; gap: .4rem;
+  }
+  .arts .a .fn .tg {
+    font-family: var(--font); font-size: .56rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; border-radius: 999px; padding: .1rem .45rem; color: #fff;
+  }
+  .arts .a.k1 { background: var(--accent-soft); border-color: rgba(15,108,189,.26); }
+  .arts .a.k1 .fn { color: var(--accent-deep); } .arts .a.k1 .tg { background: var(--accent); }
+  .arts .a.k2 { background: var(--c-vio-soft); border-color: rgba(122,90,248,.24); }
+  .arts .a.k2 .fn { color: var(--c-vio); } .arts .a.k2 .tg { background: var(--c-vio); }
+  .arts .a.k3 { background: var(--c-tea-soft); border-color: rgba(10,143,150,.24); }
+  .arts .a.k3 .fn { color: var(--c-tea); } .arts .a.k3 .tg { background: var(--c-tea); }
+  .arts .a.k4 { background: var(--plum-soft); border-color: rgba(142,45,226,.22); }
+  .arts .a.k4 .fn { color: var(--plum); } .arts .a.k4 .tg { background: var(--plum); }
+  .arts .a p { margin: 0; font-size: .74rem; line-height: 1.5; color: var(--ink-faint); }
+  .arts .a .go {
+    margin-block-start: auto; padding-block-start: .45rem; border-block-start: 1px dashed var(--line);
+    font-size: .7rem; color: var(--ink-soft);
+  }
+  .arts .a .go b { font-weight: 600; color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .pipe.p5, .pipe.p4, .pipe.p3, .petals, .petals.p5,
+    .triad, .harn, .ab, .win.split .stage, .flow3, .arts { grid-template-columns: 1fr; }
+    .harn { grid-template-rows: none; }
+    .harn .h { grid-row: auto; grid-template-rows: auto 1fr; }
+    .harn .h > header { min-height: 0; }
+    .flow3 .st + .st::before { display: none; }
+    .win.split .right { border-inline-start: none; border-block-start: 1px solid var(--line); }
+    .pnode .track { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stg { opacity: 1; animation: none; }
+    .typing i, .prog i { animation: none; }
+    .prog i { width: 72%; }
+  }
+  @media print {
+    .dg, .win, .harn .h, .petal, .pnode, .flow3 .st, .arts .a { break-inside: avoid; }
+    .stg { opacity: 1; animation: none; }
+    .prog i { width: 72%; animation: none; }
+    .win { box-shadow: none; }
+    .pnode .body, .petal, .harn .h > header, .bub .t, .chip, .win .bar,
+    .win.split .right, .triad .t .ico, .sw-bar label,
+    .flow3 .st > header, .flow3 .out
+      { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .sw-bar { display: none; }
+    .sw-pane { display: block !important; }
+  }
+
+  /* ================= COPILOT APP MOCK-UP ================= */
+  .cpui {
+    /* product chrome — deliberately neutral, not themed */
+    --surface: #ffffff; --surface-alt: #fafafa; --surface-tint: #ffffff;
+    --accent: #1b1b1f; --accent-soft: #f0f0f0; --accent-deep: #1b1b1f;
+    --ink: #1b1b1f; --ink-soft: #424242; --ink-faint: #707070;
+    --line: rgba(0,0,0,.09); --line-strong: rgba(0,0,0,.20);
+    --c-vio: #616161; --c-tea: #8a8886; --c-mag: #8a8886;
+    --plum: #8a8886; --green: #424242; --amber: #8a8886;
+    display: grid; grid-template-columns: 11.5rem 1fr;
+    border: 1px solid var(--line-strong); border-radius: 10px; overflow: hidden;
+    background: var(--surface); box-shadow: 0 16px 42px rgba(30,20,80,.12);
+    min-height: 20rem; font-size: .75rem;
+  }
+  .cpui.work { grid-template-columns: 11.5rem 1fr 13rem; }
+
+  /* left rail */
+  .cpui .rail {
+    background: var(--surface-alt); border-inline-end: 1px solid var(--line);
+    padding: .6rem .5rem; display: flex; flex-direction: column; gap: .5rem;
+  }
+  .cpui .brand { display: flex; align-items: center; gap: .4rem; padding: .1rem .3rem .2rem; }
+  .cpui .brand .mk {
+    width: 1.15rem; height: 1.15rem; flex: none;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAAzCAYAAAAtg6DjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFxEAABcRAcom8z8AABZ5SURBVGhDvZcHVJTXuoY5K/emWmKMvSc5OTmmWEEFBhBULNRpDAgIUgQRRFDBglgQeywoKoqKdKRKbw69d6yIgkgRxUhHYIb3rL3/AXGupp/7rfWsf+bfOv9+fL/9jSMj8wdqTik+l83o15DP7vdn5QMKOSIoZIsgn9XPkNmPJZn9WJwhIb0fi9L7IJfWBzkhc5UV9kH2FqGXvl6Q9BqzvVsw3akaH83PwEdyGZ0fLkzb87FstpL08//rNS++22hecm+WXC6wQCjGvKTXmJf4GnMJCQxzCPE9mBPXg58o3fgxluGHGAnREmK6MTusA2MNK/CxXAY+nCek108WZeBThQJ8pljQPlop02+scvZ30nv5r9S/wtutvo/rG/g+Afh3RJeETnwX3ol/EcIYviWEduDbGwz/JIS04xsJXxOCGb4J78Q4uwf4cI4QH8tmUMFPF2dghEImRrOyMEYlB1+uqMRYtbxSGRn8Q3pPf2vNCmw3+zr09cCs4A7MCmh7g38bZvq1DjHDdxjXWzGd4PNqiGk+v2DaNQm+rzDhcD0+UczCxwvTaXqfyWdi1KCcag7GL8/FRPU8TFpVIJ6iWWwova+/rSZffqE11bdrYIpPK6ZceUmZPBxvhkmEyy1DTCRcesMEgtcLynjC5RaMMr2Nj+YKqeBIhSyMVsrGF6o5GEfkVuZh8up8TNUswEzOHczkVgZI7+3vKdeaj8ddbEkZ792GcReeD/Hl+eE040vPZoyV5hzhGeULwtlheDbj88N1+JicPSqYiTHK2RirloPxK/IwaXUepmnmY6ZOIWaxC/EVvwyz+CVN03nFC6S3+JdrzLlnV8de6sCYs00Y4/EuGimfn3kHpwkNlNHSeDRi5K5H+EQ2HSMVSXtm48tlTHpT1hRgujYjN4tXjJmCEswwKMWs9Y8xy7SKK73Hv1QjjtXOHu3RXDvaoxmjT9W/l1Enn/4O6t7m9FN8uiwXI5ZkUsFxy3Ko4FSNfMwg6XGKMFOPyJVhhnE5pplUYppFFSab3b38tw6gUZ4tu0ddaMXIk0/+ALW/gxqMPPEYI5fn4nNWNr5UYxKcqlHAtCeXpFeK6YblmLauElPX38YUi7uYbHUfk21qX3/l9Mto6b3+qRp1ou6bkafetema3+Dxb+NRixGmZRi9JBNjVXPo9CQJEsGvSHvql2KGUQWmmd7GVPO7mGJ1H5NsqjDJrhoTNz8cmOBYvUZ6v3+qRpx6ZDbK4ylGnaqmjKY8xOeUKnx+6gFlzGnC/bf44vS990L/jOcDjDYrxhiFbDpFyQSdrkVadFiCppL0rO9jkm0VJthXY4LjI0zY0YRxu5pTpPf7p2rs6crbX3o+wDiPSozzqMB4j3KM9yjDhLOEUkw4W0KZSCnGxHNvmHSu6L1M9CzGhONFGKOdg7EqzDmcplmAWWzJGTQswzTTSky1uItJNg8w0a4KExyqMX5bDcY512LsrjqMdW3CF3saTkjv+Q/VZM8CrUnnCrqnnC/EFM88TPHMxdTzOZRp57MlZGH6BUImZQYl4zeZeSkDU9wy8LlCNsarF2GKZhlmssvxleA2ZhrdxXSzB5i6oRpTbGswyeEJvnB8jNHbazBq5xOM3PMUI/Y24LMDjRhxrB0fHXl+SHrvv7tmXSs49PX1Asy6mIqvvAgp+NormfKNVxL+eSkR31xKwD8lfHsp/m0ux/1fLhHi8a13PKY5p2CsajEmqudXTNXIz5vJLsifoVeSP92wPH+KaWX+ZMu7+ZNsqvJHbnkklHWq6WDtroe8az2W7G/EYrdnkHNvhtyhF1h0rL1vyaGWBtbhlpJi19aFOa6tcoR01y65NJe2JULX5onSbrR+CIia8K13TOF31xLxnXcM/u19kzL7ShRmX4nE91ciJITjh6uEsGGE4sf3QNYG+WJlEcaqFiRMWF72mfTzh1fdtsfKJc61r8p2NaDIuR6FTg3Id2pCntMz5Dg1I9vpJbKcW5G5ow2Zu3qQseu1hF7k7hlAqnPXrWiHF9bSnyvzY1Dc4rnBcfjpWjDmXAuizPUJxFyfAMyj+GP+dT8JvlhAuS6FzzCG3ff1wRyvSIxVTwsdN/v2COlnD680i7IrObZVHRmbHiLFugrJ1tVItH6MeOtaxFrVIdqqATetGhFp9QwRG54jfMMLhG1ooYRueInQDS2IselEnG0PQs2b97/14QuvXzkkG+gPWd+rkPW9Ajk/b8j5XcYiv0tY5H8Ji/29sNj/Ipb4XxhCPuD874IV5oWvt4THyMgMfPTWQ6Xqln66eqZpSbfQtAxJxqVIMK5ArNEd3DS+j0ijKoQbVSPUsAYhhnUIMnyKwLWN8F/bBP+1zfCjPJdcmxGwthmRpl0INm6RG3qAwo3LjQpB56EQeA6KgWfBCjxDUQo6DaWgU1AOOklRCfoZKsGEE0MsDT7+Xsi6WqQHlgYfM3rL6B1VZJATULi2AKn8TCTxc5HAK0AMrwQ3eeWI4N5GGPcubnAeIIhTDX9ODfzYT3CdXQcfdj3lGrtBAvM+gNsEX/aTVPrhPF7IBypBx5tUQ49DNeQIVEMOQ+3GISyjHMTyUIIbVoQekLAf6mGEfb/JqqiDWBG2v3xlmOtUaanhVagbuaZCLwU57ARksFMg1E1Dik4WEnVyEatTiGjtEkRolyNM+zZuaN1DkNYDBGhVw0/rMfw0a+CrWYvrmk8k1NL3gVp1CNZ5Wk8foB66b/vK8ANYGb4Pq8L2YlW4K1aH78HqcBesidiNNRG7oBGxk6IZsQOakQRnaA3h9A6YNd0EF+jE7w6XlpKuIk64xh29RORxYpHNTmRE2WlI0c1Cgm4u4nQKEKNTjCjtMkRoVyJU6w6VDdG6jyCtKgRqPUSgVvUwHuKG9iMEa91nJLVjXLzZiS7QitoO7aht0InaCt0oB+jedADn5hYK96Y9hXdzM4VPsaPovYOhtRh7sKM375CWGl7ghXxQzg1Kus2PRBEnUiJKEk2GUFeIVN0MJOtkI0EnD3E6hYjRJrKliNQup8JhWncooVp3h3EHkdr3Ea5dWS/DjbD5kRdl91Qvbgv40bYQRNtCP3oTDKJtsDbaBoYxG2EUsxHGMdaUdTFWFBPKBoqpFEP3Y61gmrCxnRu85RNpseHVoHHx0yp+UEcl7wZKuWEo4kQhnxODHE4CMtnJSGPfwi3SvrqZSNLNobKxNNkiROsU46Z2KU2YQMQjJa9jdCoRpV1SL2OSYqtpJtyMdXRjllgfYwGzGHOYx5jDIsYMlrHrsSF2PaxiTSnWsSbYOMQ6io0UzH0TbEpYD+tY01xXoev/SIsNr2rB5YX3uT6993gBqOQGo4wbimJOBAo40cjlxCFL0r5puoOyGUjSyUaiDhHORbxOPm1nkjI5v8y1AAm6xWStXsYyzkzTJsUSVjGm2BhnApu4ddgUZwzbOCPYxRnBPs4Q9nFrsSV+LRziDSiO8fqUrb8CWXcWGsEx1mCVtJR0NQmuRzYa+KGK54N7PH/c5gahnHsDJdwIFHJuIp8Ti1xOPCOrm4J03Vt0MJE2TtXNpK1MSNLJeYtU3Xwk62TVy9jHrfV3TDKCQ5wBHOP0sS1egO3xAjjF8+Ecz8fOeB5lVwIXuxM4cBmCjT2/All3y9DDvhTOr0rWcU988lTPM71J/yoe8b1RxSeifrjNC0QFN4S2bzE3UiIbg1x2PB1MmewkJl12KtJ0hVRaqJuOWxLI6wx2BrI5mfUyO5P0sCOei93xHOyJZ8M1QRd7E7SxL0Eb+xO0cSBBC24JmjiYqAH3JA24J67BIcpqHH4PZO3YLfJ31hTujNedJC02vNoMz5p0Gnnhqd45POFfwGP+ZTzkXcV93nXc5fmjUpIqleUMJhuNXHYsFSZfOSThLHYSPb/DyeMKkambFCpDRNwSGQmy+SOJq3E0aRWOJ63EiSR1/Jy0AieTVuBU0nKcJiQvwxmKGjzeA1n3yl6J8xnqF6WlpKtF77hJt+FZNAlOo0HvLOr0LqCGfwmP+FfwkH8N93m+uMsLwG1eEE2WnNdSbjgVJgOqgHMTBZwYmjJpazKZ8zhx9FrGT0YhO1ZB5mjiqiEZInImaRk8ktRwLlkNnsmquJC8FBeTl8IrWQWXklVwmZCiAu9hXJF6752qgktJKn1eSUv50lLDCzzXD1/pH4zqNDiBF4ITaBacQqOeB57qeeIJ/yJNtZp/lZ5VRpac10A6nMqHhMNQwg1HCScCxZzIt7jLj0cpN1pO5uyQjCq8Ut4IXE1RxrVUZVxPVYZvqhL8UpXgn6qEgFQlBFJYQwQNe03WgtOUEZSm8lRaSrqw7ujE7nWHB1rXHsIv+ofRIjiG54Kfaar1NNXzqNXzksgOJnudntk7PH/c4QXShCt5wTTlCu4N2tqECm4oyjghA2WcG/NkBoV8UhiZQYmQVBZupLIQdksR4bcUEUlRQNQtBdyUEC0FuUfWYzIUEZGqkCUtJV2t5q78jvVuaFt3EK2G7nhlcBi/6B+VpHoSTYIzaNA7h6d652myTBt7S9K9hiredTzgXcd9nh8VJ5OZpE3a+4l+OO5xA5gf1ySdoFsshNxihCKEiogSKiJaqIBYoQLi0+SRkCaPpDR5JKctQUraEqRSFuOWBPKa3CNrhLQcBSSmLfrVqUpKtNEtu8/KDe2m+9G27gDajA6ida07Xukfxkv9Y0MtzMieRb3eOXpmn+gRYSZhRvoKFSdJD9JgEEiuzE+tSCGL/usTqTihPBKFjAzZuDBtMdLTFiMzfRGy0xchJ30RctPlkCchX8Lge7KWnbYI5UXyqCiWXygtNbxebNs2st3apaJ34z60W+5Fu9k+tJkeQNs6N7QavpElybYIjtM2psJ6Z+i5Je1Mzi5p6UHxWr4XpV7gjRr+xcdVK0+Pow+LFS5+nkhSEi6hqaSnL0ZWGhGSQ16GHAoyZFGULouSTFmUZi5EWeZCVLyDcsnavQI5VGTLxQuFyr/647h98w7r3i0u6Nzkgg7rPejY4Ip2i31oN9uPNpMDaDN2kyR7iGljwVG8FDDpEuFngpN4JjiNRsEZNAo80CAgSTNpP9e/iGbBhcqhh+UVKuoXFSkiUyJWkC6H4gxZlGXIoiJjIW5nLsC9zAV4kDkfVVnz8TBrPh5lzcfjrHlDkPfVEh5mL0Bl+nzzt4zeUc/XW3vC2RWdm3eiw3Y3Oja6oMNqD9otXdFuvhft6yWy6wZl3dFqcEiS7hG8FJCEifRxvBD8LEn6JOUXAw808k9dHXqYUCg3NS9zUWll4RKUZhG5hajMIGLzUZVJNj4PNVnzUJc1F/VZc9CYPQfPpCD3GnPm4GXJfNRmzbn5ls07KneB2sFWq43odnJCp6MTOrfsoLKdRNbGBe3We9BOkrXcizaSLBUmA4oRbjNyR9ugtMFhvNI/QiFpE7rWnkSP8emv33povlB2YoFwYda9PNlf6krlUF8si6aShXhRsgCvSufjWe6PaM75AS25P6A193u0589Gh4S2gtloLfgBz/N+6Gsq+97srQ+WqhCezAdps5ccLVm0An17t6N7x1Z0OW1D1zYndA2T7djEyHZYuwzJtpuTVibndv/Q2aUYE+mDaDN0pxO63egQSf1Fl7HbFOnn06rMnq9+L3P+ieqsee61WfPc63PnHGzMnnukI0mlGxnL0S9URW+iMvrjlCCKZqE/UgG9oQoQhSmi66rCQ5H9SlvRFrVtok3LnEWWys59Rizndj2Wc5MGy7lajbWtdDErunAeC1U8Ll7v24July3o3umALuet6Nq+DZ1bndDp4IxO+x3otCNtvAsdNkwrt5NWpueWCEsGFUmYQKRJa5scwID5UXSZuttLu/1qATL/QIDxTwgzkRWH6d9BmAHEV7kQX2RDfEYH4qNaELlpQOy6GiDsUAcclgM2asD6pRDpL0WbjgoaV6jgrqIS0n+UR+tOS/Qe3IyefZvR42qPbhcHdO9yQJd0slR4p+Tc7mISJmeXDCorybAaTNpiLzos9qHb8gA6Lfavl/b43TXgqztpIIhXDl8uxBd0ID6jBfFxDYjcV0PkuhKiHSsgclwG0SZViCxU0GekhFaeEhrWsFClykLJYkXkyy9Fu6s5eo/YoOfgJvQcsEXP3s3o3mOP7t1E1hFdzo6M7GC6js5MKw9PmJ5fCUR8owtEtvvRu2mfUHrff7gGLrNniL3ZT3BeB+KTGhAfWQPRgVUQ7VaHaPtyiOzVINq4FCIzZbxeq4SXHBbqVrFwfykLBQsUUGOii/5TVug9ZoXXhzfitbsNXrttQs9+RpYmu9ueJtu90xHdpJVputvRtXU7uhzI2SUJS9p6MyNO6LFzQfumXdul9/ynSnxW6xw8tCE+JklxL0lRHaKtyyCyU4PISgUiU2V06ivhuQ4Lteos3FVmIXeuPJ5Y6ELsuQG9P1ui9/gG9B59I9tDZEmypI2H0t0iaWXHN+28fZg0TZpp7b5tu/rh7D5Wer9/qnBSeyZ+1mQE90tSdFoOkYMa06qWyuhfp4Q2PSU802Lh8XIWKhQUUa62FJ1HDSHyNEffGXP0nbJAH5W1Qu9Ra0b2kA1eH7TFayprN5RuDxlS9Ow6Mgnv2EpT7nbeRsWxexf6nZ3PSO/1T1fn0dUT+91WNYAIuqyEyGkFRA7LILJVhchqKUTrldFjoIQWthKermbhgSoLxXKKKF+phgEfE/RfNEG/pyn6zpqhz8Mcfact0HvSEr0nrNB73Bqvj1hLZEkr20rStZMkbM+0tKtkOrs4oNdlK5Fv696xRVl6r3+pRK7q27F/NUTOy5lhY6cKkbUKRObK6DNWQgefSbFGnYU7SiwULlTEMycdiH2MIPI2guiSMfovmKD/vCn6zxFZMyrbR2U3DKXbe2SjpJ03MbiRlO3Qs5/ATGgc3o7efQ4h0nv8y9XnvHwjdq1kEtysygwbC2WITJTQZaCEl2wWTbFKjYVyeRbyZFnovaKHAV8DiK6theiKIUSXjdHvtY6RHUqWyDKtzKT7RpgmPNjSRPjgJvS726HHzfZux0G7CdJ7/Ms14LBimthe7R42qw0lSARJm/7CVUKDBguPlrNwW4mFvLkKqDZbgYEgPgYCBBD7CSD20YeYyF41RL+3EfpJsqSNL5iijwgPpWuOXiL8syX6BoXJZD7KiOOMPQaO22hI7+9vq37rpX6wVqVfF2TQkASJYJMmCzUrmIlavEgRWT8p4MURDeAmFwMhXImsHsR++hD76kPkw8jSNh5MlwqThNej79x6RpgMK9LSZGCdsgQ8bUjSZxHC+0B6b39bwVpxjHi9cp/YWBkdAvKdqIRGIqjOwj0VFkoXs5A9RxE1tupADAeIYAPhbAyEcoZkxYFEVvBGlrYyc277h4TXof88c36JsNjTDLhkhf6zFn/fNP216hQobm/lKbV3cFTELVrKNEEiWCyriJz5ishnKaMvQBeIZDOSg4SzgbA3sgOBfIj9SSvrQ3xdH2IfA4iuShIm0peNgWumwHUz9HuZdPWfN/nvJihdWLDgf+vWsE4/WqaYWq2iJHq4VAUNpivQuoe0KA9I5APx7yGOD8TqAdECIEofiDQAwg2AMEPghiEQYgSEGAOB64hwWp+30dWBy4LJ0nv4f6sKRcUxJYsUVpWosbQHInW1kMbVItffRRiBqzUQLCFAoNVP8BVoDRD89TUHfIz+1P9m/gMugPrfw/v96AAAAABJRU5ErkJggg==);
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+  }
+  .cpui .brand b { font-size: .85rem; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+  .cpui .segs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: .15rem; padding: .15rem;
+    background: var(--line); border-radius: 999px;
+  }
+  .cpui .seg {
+    text-align: center; padding: .22rem 0; border-radius: 999px;
+    font-size: .7rem; font-weight: 600; color: var(--ink-faint);
+  }
+  .cpui .seg.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.10); }
+  .cpui .newbtn {
+    display: flex; align-items: center; gap: .4rem; padding: .35rem .5rem;
+    background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px;
+    font-weight: 600; color: var(--ink); font-size: .72rem;
+  }
+  .cpui .newbtn .pl {
+    width: .95rem; height: .95rem; border-radius: 50%; background: var(--ink);
+    color: var(--surface); font-size: .7rem; line-height: .9rem; text-align: center; flex: none;
+  }
+  .cpui .nav { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .05rem; }
+  .cpui .nav li {
+    display: flex; align-items: center; gap: .4rem; padding: .26rem .5rem;
+    border-radius: 6px; color: var(--ink-soft); font-size: .72rem;
+  }
+  .cpui .nav li.sel { background: var(--accent-soft); color: var(--accent-deep); font-weight: 600; }
+  .cpui .nav li .ic {
+    width: .82rem; height: .82rem; flex: none; border-radius: 3px;
+    border: 1.4px solid var(--ink-faint); opacity: .8;
+  }
+  .cpui .nav li .ic.r { border-radius: 50%; }
+  .cpui .nav.pin li .ic { border: none; border-radius: 4px; opacity: 1; }
+  .cpui .nav.pin li .ic.v { background: var(--accent); }
+  .cpui .nav.pin li .ic.m { background: var(--c-mag); }
+  .cpui .nav.pin li .ic.b { background: var(--c-vio); }
+  .cpui .nav.pin li .ic.t { background: var(--c-tea); }
+  .cpui .nav.pin li .ic.p { background: var(--plum); }
+  .cpui .rail-h {
+    margin: .3rem 0 0; padding-inline-start: .5rem;
+    font-size: .6rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .cpui .rail .fade { margin-block-start: auto; }
+
+  /* main column */
+  .cpui .main { display: flex; flex-direction: column; min-width: 0; }
+  .cpui .topbar {
+    display: flex; align-items: center; gap: .35rem;
+    padding: .45rem .7rem; border-block-end: 1px solid var(--line);
+  }
+  .cpui .tchip {
+    font-size: .66rem; font-weight: 600; border-radius: 6px; padding: .16rem .45rem;
+    background: var(--surface-alt); color: var(--ink-soft);
+  }
+  .cpui .tchip.iq { background: var(--accent-soft); color: var(--accent-deep); }
+  .cpui .topbar .ttl { font-size: .72rem; font-weight: 600; color: var(--ink); }
+  .cpui .topbar .rt { margin-inline-start: auto; display: flex; gap: .3rem; align-items: center; }
+  .cpui .topbar .rt i { width: .7rem; height: .7rem; border-radius: 50%; border: 1.4px solid var(--line-strong); }
+  .cpui .topbar .rt i.g { border-color: var(--green); }
+
+  .cpui .canvas { position: relative; flex: 1; display: flex; }
+  .cpui .cpane { display: none; flex: 1; flex-direction: column; padding: .85rem .9rem; min-width: 0; }
+
+  /* idle / hero state */
+  .cpui .hero {
+    margin: auto auto .8rem; text-align: center; max-width: 24rem;
+    font-size: 1rem; font-weight: 400; letter-spacing: -.02em; color: var(--ink);
+  }
+  .cpui .composer {
+    display: flex; align-items: center; gap: .5rem; width: 100%;
+    border: 1px solid var(--line-strong); border-radius: 999px;
+    background: var(--surface); padding: .5rem .6rem .5rem .55rem;
+    cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .cpui .composer:hover {
+    border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); transform: translateY(-1px);
+  }
+  .cpui .composer .pl { font-size: .95rem; color: var(--ink-faint); line-height: 1; flex: none; }
+  .cpui .composer .ph { flex: 1; color: var(--ink-faint); font-size: .74rem; }
+  .cpui .composer.typed .ph { color: var(--ink); }
+  .cpui .composer .send {
+    flex: none; width: 1.3rem; height: 1.3rem; border-radius: 50%;
+    background: var(--accent); color: #fff; font-size: .72rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cpui .sugg { display: flex; flex-wrap: wrap; gap: .3rem; justify-content: center; margin-block-start: .55rem; }
+  .cpui .sugg .s {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-size: .68rem; border: 1px solid var(--line); border-radius: 6px;
+    padding: .22rem .5rem; color: var(--ink-soft); background: var(--surface);
+    cursor: pointer; transition: border-color .2s, color .2s, background .2s;
+  }
+  .cpui .sugg .s:hover { border-color: var(--accent); color: var(--accent-deep); background: var(--accent-soft); }
+  .cpui .sugg .ms {
+    width: .6rem; height: .6rem; flex: none;
+    background:
+      linear-gradient(#F25022 0 0) 0 0 / .26rem .26rem no-repeat,
+      linear-gradient(#7FBA00 0 0) 100% 0 / .26rem .26rem no-repeat,
+      linear-gradient(#00A4EF 0 0) 0 100% / .26rem .26rem no-repeat,
+      linear-gradient(#FFB900 0 0) 100% 100% / .26rem .26rem no-repeat;
+  }
+  .cpui .clickme {
+    margin: .7rem auto 0; font-size: .64rem; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-deep); display: flex; align-items: center; gap: .3rem;
+  }
+  .cpui .clickme::before {
+    content: ""; width: .4rem; height: .4rem; border-radius: 50%;
+    background: var(--accent); animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: .35; transform: scale(.8);} 50% { opacity: 1; transform: scale(1.25);} }
+
+  /* conversation state */
+  .cpui .thread { flex: 1; overflow: hidden; }
+  .cpui .foot { margin-block-start: .6rem; display: flex; align-items: center; gap: .5rem; }
+  .cpui .foot .composer { padding-block: .42rem; }
+  .cpui .reset {
+    font-size: .66rem; font-weight: 600; color: var(--ink-faint); cursor: pointer;
+    border: 1px solid var(--line); border-radius: 999px; padding: .28rem .6rem; flex: none;
+    transition: color .2s, border-color .2s;
+  }
+  .cpui .reset:hover { color: var(--accent-deep); border-color: var(--accent); }
+  .cpui .ref {
+    display: inline-flex; align-items: center; gap: .25rem; margin-block-start: .3rem;
+    font-size: .62rem; color: var(--ink-faint);
+  }
+  .cpui .ref b {
+    width: .8rem; height: .8rem; border-radius: 3px; background: var(--accent-soft);
+    color: var(--accent-deep); font-size: .55rem; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* right workspace pane */
+  .cpui .wsp {
+    border-inline-start: 1px solid var(--line); background: var(--surface-alt);
+    padding: .6rem .6rem .7rem; display: flex; flex-direction: column; gap: .5rem; min-width: 0;
+  }
+  .cpui .wsp .wh { display: flex; align-items: center; font-size: .72rem; font-weight: 600; color: var(--ink); }
+  .cpui .wsp .wh .x { margin-inline-start: auto; color: var(--ink-faint); font-weight: 400; }
+  .cpui .wsp .sh {
+    display: flex; align-items: center; gap: .35rem;
+    font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .cpui .wsp .sh .cnt {
+    margin-inline-start: auto; letter-spacing: 0; text-transform: none;
+    font-size: .62rem; border: 1px solid var(--line-strong); border-radius: 999px;
+    padding: .04rem .38rem; color: var(--ink-soft); background: var(--surface);
+  }
+  .cpui .wsp .sh .cnt.done { border-color: var(--green); color: var(--green); }
+  .cpui .wl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
+  .cpui .wl li { display: flex; gap: .4rem; font-size: .68rem; line-height: 1.35; color: var(--ink-soft); }
+  .cpui .wl li .ck {
+    flex: none; width: .78rem; height: .78rem; border-radius: 50%;
+    border: 1.4px solid var(--line-strong); color: transparent;
+    font-size: .52rem; display: flex; align-items: center; justify-content: center; margin-block-start: .08rem;
+  }
+  .cpui .wl li .ck.ok { border-color: var(--green); background: var(--green); color: #fff; }
+  .cpui .wl li .ck.run { border-color: var(--accent); border-block-start-color: transparent; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .cpui .wl li.dim { color: var(--ink-faint); opacity: .7; }
+  .cpui .wf { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .28rem; }
+  .cpui .wf li { display: flex; gap: .4rem; align-items: center; font-size: .67rem; color: var(--ink-soft); }
+  .cpui .wf li .ft {
+    flex: none; width: .95rem; height: .95rem; border-radius: 3px;
+    font-size: .48rem; font-weight: 700; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cpui .wf li .ft.h { background: var(--accent); }
+  .cpui .wf li .ft.z { background: var(--amber); }
+  .cpui .wf li .ft.m { background: var(--ink-faint); }
+
+  /* product-accurate neutrals */
+  .cpui { background: #fff; box-shadow: 0 16px 42px rgba(0,0,0,.10); }
+  .cpui .wsp { background: #fff; }
+  .cpui .bub.me .t { background: #f0f0f0; color: #1b1b1f; }
+  .cpui .bub.ai .t { background: #fff; border-color: rgba(0,0,0,.10); color: #424242; }
+  .cpui .composer .send { background: #1b1b1f; }
+  .cpui .composer:hover { border-color: #8a8886; box-shadow: 0 0 0 3px #f0f0f0; }
+  .cpui .sugg .s:hover { border-color: #8a8886; color: #1b1b1f; background: #f5f5f5; }
+  .cpui .reset:hover { color: #1b1b1f; border-color: #8a8886; }
+  .cpui .wl li .ck.ok { border-color: #424242; background: #424242; color: #fff; }
+  .cpui .wl li .ck.run { border-color: #616161; }
+  .cpui .wf li .ft.h, .cpui .wf li .ft.z, .cpui .wf li .ft.m { background: #8a8886; }
+  .cpui .nav.pin li .ic.v, .cpui .nav.pin li .ic.m,
+  .cpui .nav.pin li .ic.b, .cpui .nav.pin li .ic.t,
+  .cpui .nav.pin li .ic.p { background: #c8c6c4; }
+  .cpui .topbar .rt i.g { border-color: #8a8886; }
+
+  /* pane switching — one click */
+  #cc-0:checked ~ .cpui .p0, #cc-1:checked ~ .cpui .p1,
+  #cw-0:checked ~ .cpui .p0, #cw-1:checked ~ .cpui .p1 { display: flex; }
+  #cw-0:checked ~ .cpui .wsp .idleonly { display: flex; }
+  #cw-0:checked ~ .cpui .wsp .runonly,
+  #cw-1:checked ~ .cpui .wsp .idleonly { display: none; }
+  #cw-1:checked ~ .cpui .wsp .runonly { display: flex; }
+
+  @media (max-width: 860px) {
+    .cpui, .cpui.work { grid-template-columns: 1fr; }
+    .cpui .rail { flex-direction: row; flex-wrap: wrap; align-items: center; border-inline-end: none; border-block-end: 1px solid var(--line); }
+    .cpui .rail .nav, .cpui .rail-h, .cpui .segs { width: 100%; }
+    .cpui .wsp { border-inline-start: none; border-block-start: 1px solid var(--line); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cpui .clickme::before, .cpui .wl li .ck.run { animation: none; }
+  }
+  @media print {
+    .cpui { box-shadow: none; break-inside: avoid; }
+    .cpui .cpane { display: flex !important; }
+    .cpui .p0 { display: none !important; }
+    .cpui .wsp .idleonly { display: none !important; }
+    .cpui .wsp .runonly { display: flex !important; }
+    .cpui .rail, .cpui .wsp, .cpui .nav li.sel, .cpui .tchip, .cpui .seg.on,
+    .cpui .wl li .ck.ok, .cpui .wf li .ft, .cpui .composer .send
+      { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+
+  /* ================= AGENT BUILDER CONFIGURE PAGE (tutorial UI) ================= */
+  .ic-outlook, .ic-teams {
+    display:inline-block; background-size:contain; background-repeat:no-repeat;
+    background-position:center; flex:none; vertical-align:middle;
+  }
+  .ic-outlook{background-image:url(data:image/png;base64,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);}
+  .ic-teams{background-image:url(data:image/png;base64,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);}
+  .agpage {
+    border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow);
+    background:var(--surface); padding:18px 20px; max-width:34rem; margin-inline:auto;
+  }
+  .ag-field { border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:.74rem; color:var(--ink-faint); background:var(--surface); }
+  .ag-ta { min-height:3.6rem; }
+  .ag-row { display:flex; align-items:center; gap:.6rem; padding:.5rem 0; border-block-start:1px solid var(--line); font-size:.76rem; color:var(--ink); }
+  .agc .ag-row:first-of-type { border-block-start:0; }
+  .ag-tog { margin-inline-start:auto; width:2rem; height:1.05rem; border-radius:999px; background:#c8c6c4; position:relative; flex:none; }
+  .ag-tog::after { content:""; position:absolute; top:2px; left:2px; width:.8rem; height:.8rem; border-radius:50%; background:#fff; }
+  .ag-tog.on { background:var(--accent); }
+  .ag-tog.on::after { left:auto; right:2px; }
+  .ag-sp-head { display:flex; gap:.6rem; font-size:.66rem; color:var(--ink-faint); margin-block-end:.35rem; }
+  .ag-sp-head span { flex:1; }
+  .ag-sp-row { display:flex; gap:.6rem; margin-block-end:.45rem; }
+  .ag-sp-row .ag-field { flex:1; }
+  .ag-add { font-size:.72rem; color:var(--accent); font-weight:600; margin-block-start:.35rem; }
+  .aghero { display:flex; align-items:center; gap:.7rem; margin:0 0 1rem; }
+  .aghero .agav {
+    width:2.5rem; height:2.5rem; border-radius:12px; background:var(--accent);
+    display:grid; place-items:center; color:#fff; flex:none; font-size:1rem; font-weight:700;
+  }
+  .aghero b { display:block; font-size:1.05rem; line-height:1.15; }
+  .aghero .aghs { font-size:.7rem; color:var(--ink-faint); }
+  .agmodel { margin-inline-start:auto; font-size:.7rem; color:var(--ink-soft); flex:none; }
+  .agc { border:1px solid var(--line); border-radius:12px; background:var(--surface-tint); padding:.75rem .85rem; margin-block-end:.7rem; }
+  .agc:last-child { margin-block-end:0; }
+  .agc.hl { background:var(--accent-soft); border-color:rgba(15,108,189,.30); }
+  .agc.hl .agc-t { color:var(--accent-deep); }
+  .agc-h { display:flex; align-items:center; gap:.45rem; margin-block-end:.55rem; flex-wrap:wrap; }
+  .agc-t { font-size:.82rem; font-weight:600; }
+  .agc-r { margin-inline-start:auto; display:inline-flex; align-items:center; gap:.4rem; }
+  .agi {
+    width:.82rem; height:.82rem; border-radius:50%; border:1px solid var(--ink-faint); color:var(--ink-faint);
+    font-size:.52rem; display:inline-grid; place-items:center; flex:none; font-style:normal; font-weight:700; line-height:1;
+  }
+  .agbtn {
+    display:inline-flex; align-items:center; gap:.3rem; border:1px solid var(--line); border-radius:7px;
+    padding:.2rem .5rem; font-size:.66rem; color:var(--ink-soft); background:var(--surface); white-space:nowrap;
+  }
+  .agtag {
+    font-size:.58rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:.1rem .4rem;
+    border-radius:5px; background:var(--surface-alt); border:1px solid var(--line); color:var(--ink-faint);
+  }
+  .agtag.pv { background:var(--amber-soft); border-color:rgba(181,71,8,.24); color:var(--amber); }
+  .agdrop { border:1px dashed var(--line-strong); border-radius:10px; padding:.85rem .7rem; text-align:center; font-size:.72rem; color:var(--ink-faint); }
+  .agdrop.fill { background:var(--c-vio-soft); border-color:rgba(122,90,248,.28); color:var(--c-vio); }
+  .agadd {
+    display:inline-flex; align-items:center; gap:.35rem; border:1px solid var(--line); border-radius:7px;
+    padding:.3rem .65rem; margin-block-start:.5rem; font-size:.7rem; color:var(--ink); background:var(--surface-alt);
+  }
+  .aggrp { display:flex; align-items:center; gap:.4rem; font-size:.72rem; font-weight:700; color:var(--accent-deep); margin:.8rem 0 .1rem; }
+  .agrow-ic { width:1.1rem; height:1.1rem; display:grid; place-items:center; flex:none; font-size:.66rem; }
+  .agrow-ic .sq { width:.85rem; height:.85rem; border-radius:3px; display:block; }
+  .agskill { display:flex; align-items:center; gap:.4rem; font-size:.72rem; color:var(--ink); padding:.3rem 0; }
+  .agskill .zp { font-family:var(--mono); font-size:.68rem; color:var(--accent-deep); }
+  .dg-sub { margin:0 0 .7rem; font-size:.8rem; line-height:1.55; color:var(--ink-soft); text-align:center; }
+  .lvdiff { margin-block-start:.9rem; background:var(--accent-soft); border:1px solid rgba(15,108,189,.26); border-radius:var(--radius); padding:.75rem .95rem; }
+  .lvd-h { font-size:.64rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-deep); margin-block-end:.4rem; }
+  .lvdiff ul { margin:0 0 .5rem; padding-inline-start:1.1rem; color:var(--ink-soft); font-size:.78rem; }
+  .lvdiff ul li { margin-block-end:.2rem; }
+  .lvdiff p { margin:0; font-size:.76rem; color:var(--ink-faint); }
+  @media print {
+    .agpage { box-shadow:none; break-inside:avoid; }
+    .agc.hl, .agdrop.fill, .ag-tog.on, .aghero .agav, .agtag.pv, .lvdiff
+      { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+  /* ================= WORK IQ ON/OFF TOGGLE (tutorial UI) ================= */
+  .wqdemo { position:relative; margin-block-start:.6rem; }
+  .wq-cb { position:absolute; opacity:0; width:1px; height:1px; margin:0; pointer-events:none; }
+  .wq-toggle { display:inline-flex; align-items:center; gap:.65rem; cursor:pointer; user-select:none; }
+  .wq-sw {
+    position:relative; flex:none; width:2.6rem; height:1.5rem; border-radius:999px;
+    background:#c8c6c4; transition:background .3s cubic-bezier(.2,.7,.3,1);
+  }
+  .wq-sw::after {
+    content:""; position:absolute; top:.19rem; left:.19rem; width:1.12rem; height:1.12rem;
+    border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.3);
+    transition:left .3s cubic-bezier(.2,.7,.3,1);
+  }
+  .wq-toggle:hover .wq-sw { background:var(--ink-faint); }
+  .wq-cb:checked ~ .wq-toggle .wq-sw { background:var(--accent); }
+  .wq-cb:checked ~ .wq-toggle .wq-sw::after { left:1.29rem; }
+  .wq-cb:focus-visible ~ .wq-toggle .wq-sw { outline:2px solid var(--accent); outline-offset:3px; }
+  .wq-lbl { font-size:.8rem; font-weight:600; color:var(--ink); }
+  .wq-panel { display:grid; grid-template-columns:1.05fr 1fr; gap:1.1rem; align-items:start; margin-block-start:1rem; }
+  .wq-panel .wq-on { display:none !important; }
+  .wq-cb:checked ~ .wq-panel .wq-off { display:none !important; }
+  .wq-cb:checked ~ .wq-panel .wq-on { display:block !important; }
+  .wq-card {
+    background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius);
+    padding:.95rem 1.05rem; grid-column:1; grid-row:1;
+    animation:wqcard .38s cubic-bezier(.2,.7,.3,1) both;
+  }
+  .wq-card.wq-on { background:var(--accent-soft); border-color:rgba(15,108,189,.34); }
+  @keyframes wqcard { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+  .wq-state { font-size:.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); }
+  .wq-card.wq-on .wq-state { color:var(--accent-deep); }
+  .wq-card h5 { margin:.25rem 0 .4rem; font-size:1rem; font-weight:700; letter-spacing:-.02em; color:var(--ink); }
+  .wq-card p { margin:0; font-size:.8rem; color:var(--ink-soft); line-height:1.6; }
+  .wq-card ul { list-style:none; margin:.7rem 0 0; padding:0; }
+  .wq-card li { position:relative; font-size:.78rem; color:var(--ink-soft); padding:.42rem 0 .42rem 1.1rem; border-block-start:1px solid var(--line); }
+  .wq-card li::before {
+    content:""; position:absolute; inset-inline-start:0; top:.78rem;
+    width:.5rem; height:.5rem; border-radius:50%; background:var(--c,var(--line-strong));
+  }
+  .wq-try { grid-column:2; grid-row:1; }
+  .wq-try-h { font-size:.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin-block-end:.55rem; }
+  .wq-bub {
+    background:var(--surface-tint); border:1px solid var(--line); border-radius:12px;
+    padding:.7rem .85rem; font-size:.8rem; font-weight:600; color:var(--ink);
+    box-shadow:0 6px 18px rgba(30,20,80,.06); margin-block-end:.6rem; opacity:0;
+    animation:wqbub .45s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .wq-bubs.wq-on .wq-bub { background:var(--accent-soft); border-color:rgba(15,108,189,.26); }
+  .wq-bub:nth-child(1) { animation-delay:.12s; }
+  .wq-bub:nth-child(2) { animation-delay:.3s; }
+  @keyframes wqbub { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+  .wq-tag { display:block; font-size:.6rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-faint); margin-block-end:.3rem; }
+  .wq-ref { color:var(--accent-deep); font-weight:700; }
+  .wq-hint { font-size:.76rem; color:var(--ink-faint); line-height:1.6; margin:.55rem 0 0; }
+  .wq-hint b { color:var(--ink); }
+  @media (max-width: 860px) {
+    .wq-panel { grid-template-columns:1fr; }
+    .wq-card, .wq-try { grid-column:1; }
+    .wq-card { grid-row:1; } .wq-try { grid-row:2; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wq-card, .wq-bub { animation:none; opacity:1; }
+  }
+  @media print {
+    .wq-toggle { display:none !important; }
+    .wq-panel { display:block; }
+    .wq-panel .wq-on, .wq-panel .wq-off { display:block !important; }
+    .wq-card, .wq-bub { animation:none !important; opacity:1 !important; margin-block-end:.7rem; break-inside:avoid; }
+    .wq-try { margin-block-start:.8rem; }
+    .wq-card.wq-on, .wq-bubs.wq-on .wq-bub { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
   /* ---------- collapsible topic ---------- */
   details.topic { margin-block: 1.5rem 1.2rem; }
   details.topic > summary {
@@ -422,9 +1251,9 @@
 
   /* ---------- copyable instruction cell ---------- */
   .codecell {
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius);
-    background: var(--surface);
+    background: #11243d;
     box-shadow: 0 10px 30px rgba(30,20,80,.06), 0 1px 3px rgba(30,20,80,.04);
     margin-block: .85rem 1.3rem;
     overflow: hidden;
@@ -435,23 +1264,34 @@
     justify-content: space-between;
     gap: 1rem;
     padding: .55rem .75rem .55rem 1rem;
-    background: var(--surface-alt);
-    border-block-end: 1px solid var(--line);
+    background: var(--accent-soft);
+    border-block-end: 1px solid rgba(15,108,189,.22);
   }
   .codecell-bar span {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
     font-size: .72rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
-    color: var(--ink-faint);
+    color: var(--accent-deep);
   }
+  .codecell-bar span::before {
+    content: "";
+    width: .42rem; height: .42rem; border-radius: 50%;
+    background: var(--accent); flex: none;
+  }
+  .codecell.compact .codecell-bar { background: var(--c-vio-soft); border-block-end-color: rgba(122,90,248,.22); }
+  .codecell.compact .codecell-bar span { color: var(--c-vio); }
+  .codecell.compact .codecell-bar span::before { background: var(--c-vio); }
   .codecell button, .codecell .btn {
     font: inherit;
     font-size: .78rem;
     font-weight: 600;
     color: var(--accent-deep);
     background: var(--accent-soft);
-    border: 1px solid rgba(122,90,248,.24);
+    border: 1px solid rgba(15,108,189,.24);
     border-radius: 999px;
     padding: .3rem .85rem;
     cursor: pointer;
@@ -485,7 +1325,7 @@
     font-weight: 600;
     color: var(--accent-deep);
     background: var(--accent-soft);
-    border: 1px solid rgba(122,90,248,.24);
+    border: 1px solid rgba(15,108,189,.24);
     border-radius: 999px;
     padding: .3rem .85rem;
     cursor: pointer;
@@ -512,16 +1352,20 @@
     margin: 0;
     height: 20rem;
     overflow: auto;
-    padding: .9rem 1.1rem;
+    padding: .95rem 1.1rem;
     font-family: var(--mono);
     font-size: .8rem;
     line-height: 1.6;
-    color: var(--ink-soft);
+    color: rgba(255,255,255,.88);
+    background: #11243d;
     white-space: pre-wrap;
     tab-size: 2;
   }
+  .codecell.compact pre { background: #0e1e35; }
+  .codecell pre strong, .codecell pre b { color: #fff; }
   @media print {
-    .codecell pre { height: auto; overflow: visible; }
+    .codecell pre { height: auto; overflow: visible; background: var(--surface-alt); color: var(--ink); }
+    .codecell { background: var(--surface); }
     .codecell button, .codecell .btn { display: none; }
   }
 
@@ -691,17 +1535,14 @@
     <p><strong>The LLM</strong> is the reasoning half, hosted in the Microsoft Cloud. On <em>Copilot Chat (Basic)</em> this is GPT; on <em>Microsoft 365 Copilot (Premium)</em> you additionally get model choice across GPT and Claude. Two properties hold on both tiers: the models are <strong>not trained on your organisational data</strong>, and Copilot <strong>inherits the security, compliance and privacy policies already set in Microsoft 365</strong> — it does not introduce a second permission model.</p>
 
     <p><strong>Work IQ</strong> is, in Microsoft's own words, <em>"a workplace intelligence layer that enables agents to access and reason over organizational data, context, and tools."</em> It continuously builds a semantic understanding across Microsoft 365 and external systems, with permission-aware governance built in. It does not replace Microsoft Graph — the two work together, with Graph remaining the grounding path into tenant content. Learn describes Work IQ as combining <strong>chat, context, tools and workspaces</strong>:</p>
-    <div class="table-wrap">
-      <table>
-        <caption>Work IQ — the four capabilities</caption>
-        <thead><tr><th>Capability</th><th>What it contributes</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Chat</strong></td><td>Optimised for conversational intelligence. Supports A2A for agent-to-agent collaboration and REST for web applications, so agents can delegate work, maintain continuity and return fully processed, Copilot-quality responses.</td></tr>
-          <tr><td><strong>Context</strong></td><td>Optimised by eliminating orchestration overhead. Work IQ assembles and grounds context internally across organisational data to provide agent-ready inputs, so agents do not stitch together raw signals or manage retrieval pipelines.</td></tr>
-          <tr><td><strong>Tools</strong></td><td>Optimised for fast, composable actions. The Work IQ MCP collapses hundreds of operations into <strong>10 generic tools</strong> reaching mail, calendar, files, people, chat and sites — simple verbs such as <em>fetch</em>, <em>create</em> and <em>update</em>, with resource paths defining what the agent is working on.</td></tr>
-          <tr><td><strong>Workspaces</strong></td><td>Optimised for long-running agent workflows. <strong>SharePoint Embedded working storage</strong> gives agents a persistent space inside your tenant boundary for intermediate data and outputs — supporting task progression, reuse of results and handoff between agents.</td></tr>
-        </tbody>
-      </table>
+    <div class="dg">
+      <p class="dg-cap"><b>Work IQ</b> Four capabilities, one intelligence layer</p>
+      <div class="petals">
+        <div class="petal"><span class="k">01 Chat</span><b>Conversational intelligence</b><span>Supports A2A for agent-to-agent collaboration and REST for web applications, so agents can delegate work, maintain continuity and return fully processed, Copilot-quality responses.</span></div>
+        <div class="petal"><span class="k">02 Context</span><b>No orchestration overhead</b><span>Work IQ assembles and grounds context internally across organisational data to provide agent-ready inputs, so agents do not stitch together raw signals or manage retrieval pipelines.</span></div>
+        <div class="petal"><span class="k">03 Tools</span><b>Fast, composable actions</b><span>The Work IQ MCP collapses hundreds of operations into <strong>10 generic tools</strong> reaching mail, calendar, files, people, chat and sites &mdash; simple verbs such as <em>fetch</em>, <em>create</em> and <em>update</em>.</span></div>
+        <div class="petal"><span class="k">04 Workspaces</span><b>Long-running agent workflows</b><span><strong>SharePoint Embedded working storage</strong> gives agents a persistent space inside your tenant boundary for intermediate data and outputs &mdash; supporting task progression, reuse of results and handoff between agents.</span></div>
+      </div>
     </div>
     <p>Two of these matter more than they first appear. <strong>Context</strong> is why the same prompt behaves differently in Copilot than in a generic assistant — the grounding is assembled for you rather than stitched together from raw signals. And <strong>Workspaces</strong> is the one most people miss: persistent storage inside the tenant boundary is exactly what a stateless sandbox cannot offer, which is why it resurfaces as a design constraint in Sections 4.2 and 5.</p>
     <p>Developers can reach Work IQ directly from custom apps and agents through the <strong>Work IQ API</strong> — A2A, a remote MCP server and a REST API. Note the commercial detail: <em>"Work IQ API access is independent of Microsoft 365 Copilot licensing and available through usage-based billing."</em> For licensed users it is present across all Copilot experiences and agents, but custom and third-party agents are billed on usage.</p>
@@ -710,11 +1551,56 @@
 
     <p><strong>Web IQ</strong> supplies real-time public web grounding. It is the term for the web-search half of the answer, and it is available on <em>both</em> tiers — Copilot Chat's baseline offer is secure, web-grounded chat. The practical consequence for design: web grounding is never the differentiator between tiers; <strong>Work IQ is</strong>.</p>
 
-    <div class="callout key">
-      <span class="tag">The prompt test</span>
-      <p>The clearest way to see what Work IQ adds is to contrast two prompts for the same job.</p>
-      <p style="margin-block-start:.55rem"><strong>Without Work IQ</strong> you must carry the context yourself: <em>"Review [/Document A] and compare it against [/Document B]"</em>, or <em>"Suggest a reply to this question [paste question]"</em>.</p>
-      <p style="margin-block-start:.4rem"><strong>With Work IQ</strong> the context is already there: <em>"List my meetings today and the key decisions I should make"</em>, or <em>"Recap my previous engagements with [stakeholder] — what has been decided and what has not?"</em></p>
+    <div class="dg">
+      <p class="dg-cap"><b>Work IQ on/off</b> Web-grounded vs. Work IQ&ndash;grounded chat</p>
+      <p class="dg-sub" style="text-align:start">There aren't two separate chats anymore. There's <strong>one chat box with a single Work IQ toggle</strong> &mdash; flip it to control what Copilot grounds its answer in.</p>
+      <div class="wqdemo">
+        <input class="wq-cb" id="wq-toggle" type="checkbox">
+        <label class="wq-toggle" for="wq-toggle">
+          <span class="wq-sw"></span>
+          <span class="wq-lbl">Work IQ</span>
+        </label>
+        <div class="wq-panel">
+
+          <div class="wq-card wq-off">
+            <div class="wq-state">Work IQ off</div>
+            <h5>Web-grounded Chat</h5>
+            <p>Copilot reasons over public web knowledge and the files you hand it &mdash; ideal for research, drafting and general questions. Every prompt starts with you finding, attaching or pasting the material first.</p>
+            <ul>
+              <li style="--c:var(--ink-faint)">Open-web knowledge</li>
+              <li style="--c:var(--ink-faint)">Plus any files you attach</li>
+              <li style="--c:var(--green)">Available to Basic &amp; Premium</li>
+            </ul>
+          </div>
+
+          <div class="wq-card wq-on">
+            <div class="wq-state">Work IQ on</div>
+            <h5>Work IQ&ndash;grounded Chat</h5>
+            <p>Copilot also reasons over your work across Microsoft 365 &mdash; emails, chats, meetings and files &mdash; trimmed to what you already have permission to see. The context is already there before you type.</p>
+            <ul>
+              <li style="--c:var(--c-vio)">Everything web-grounded does</li>
+              <li style="--c:var(--accent)">Your emails, chats, meetings and files</li>
+              <li style="--c:var(--green)">Permission-trimmed &mdash; nothing you can't already open</li>
+            </ul>
+          </div>
+
+          <div class="wq-try">
+            <div class="wq-try-h">Suggested prompts to try</div>
+            <div class="wq-bubs wq-off">
+              <div class="wq-bub"><span class="wq-tag">Without Work IQ</span>Review <span class="wq-ref">/Document A</span> and compare it against <span class="wq-ref">/Document B</span>.</div>
+              <div class="wq-bub">Suggest a reply to this question <span class="wq-ref">[paste the question]</span>.</div>
+            </div>
+            <div class="wq-bubs wq-on">
+              <div class="wq-bub"><span class="wq-tag">With Work IQ</span>List my meetings today and the key decisions I should make.</div>
+              <div class="wq-bub">Recap my previous engagements with <span class="wq-ref">[stakeholder]</span> &mdash; what has been decided, and what has not?</div>
+            </div>
+            <p class="wq-hint wq-off"><b>Notice the pattern.</b> Both prompts begin with you supplying the raw material &mdash; the documents, the pasted text. Copilot is capable, but it starts from zero every time.</p>
+            <p class="wq-hint wq-on"><b>The prompt gets shorter, and the question gets bigger.</b> You stop describing the material and start asking about your actual work.</p>
+          </div>
+
+        </div>
+      </div>
+      <p class="dg-foot">It's one chat with a single Work IQ toggle &mdash; not two separate chat experiences.</p>
     </div>
 
     <div class="links">
@@ -737,38 +1623,15 @@
 
     <p>The equation in Section 1 describes what Copilot is <em>made of</em>. Customers rarely buy a composition — they buy capability. The sharing-session deck frames Microsoft 365 Copilot as <strong>a unified AI platform that takes the latest innovations and tailors them for work</strong>, expressed as five capabilities. Learn these five as a set: each one is a different place an agent design can either lean on the platform or duplicate it.</p>
 
-    <div class="table-wrap">
-      <table>
-        <caption>The five capabilities of Microsoft 365 Copilot</caption>
-        <thead><tr><th>Capability</th><th>The one-line claim</th><th>What it means when you are designing</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>1 · Work IQ</strong></td>
-            <td>The intelligence layer that personalises Copilot to you and your organisation.</td>
-            <td>Grounding you inherit rather than build. If your agent's knowledge requirement is "the user's own mail, files, meetings and chats", you are describing Work IQ — do not rebuild it as a knowledge source.</td>
-          </tr>
-          <tr>
-            <td><strong>2 · Agentic Work</strong></td>
-            <td>AI in the flow of work that turns intent into action.</td>
-            <td>The platform itself now executes, not just drafts. Multi-step execution over time is a product capability (Cowork, Section 1.3) before it is an agent you have to build.</td>
-          </tr>
-          <tr>
-            <td><strong>3 · Multi-model</strong></td>
-            <td>The best model for every task and workflow.</td>
-            <td>Model choice is a platform dial (GPT and Claude families on Premium), not a reason to move to a pro-code surface. Needing "a different model" is rarely a valid harness-escalation argument on its own.</td>
-          </tr>
-          <tr>
-            <td><strong>4 · Agent Platform</strong></td>
-            <td>An ecosystem of agents with agent-building tools for everyone.</td>
-            <td>The built-in build surfaces: Agent Builder for information workers, Copilot Studio for makers and IT. This capability is what Sections 2–5 of this workbook unpack.</td>
-          </tr>
-          <tr>
-            <td><strong>5 · Security &amp; Management</strong></td>
-            <td>Built-in security, management and governance.</td>
-            <td>Your agent inherits tenant security, compliance and admin controls by default. Governance is a configuration surface, not a component you author.</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="dg">
+      <p class="dg-cap"><b>The platform</b> Five capabilities &mdash; and what each means when you are designing</p>
+      <div class="petals p5">
+        <div class="petal"><span class="k">01</span><b>Work IQ</b><span>The intelligence layer that personalises Copilot to you and your organisation.</span><em>Grounding you inherit rather than build. If your agent's knowledge requirement is "the user's own mail, files, meetings and chats", you are describing Work IQ &mdash; do not rebuild it as a knowledge source.</em></div>
+        <div class="petal"><span class="k">02</span><b>Agentic Work</b><span>AI in the flow of work that turns intent into action.</span><em>The platform itself now executes, not just drafts. Multi-step execution over time is a product capability (Cowork, Section 1.3) before it is an agent you have to build.</em></div>
+        <div class="petal"><span class="k">03</span><b>Multi-model</b><span>The best model for every task and workflow.</span><em>Model choice is a platform dial, not a reason to move to a pro-code surface. Needing "a different model" is rarely a valid harness-escalation argument on its own.</em></div>
+        <div class="petal"><span class="k">04</span><b>Agent Platform</b><span>An ecosystem of agents with agent-building tools for everyone.</span><em>The built-in build surfaces: Agent Builder and Copilot Studio. This capability is what Sections 2&ndash;5 of this workbook unpack.</em></div>
+        <div class="petal"><span class="k">05</span><b>Security &amp; Management</b><span>Built-in security, management and governance.</span><em>Your agent inherits tenant security, compliance and admin controls by default. Governance is a configuration surface, not a component you author.</em></div>
+      </div>
     </div>
 
     <h3>Capability 2 in detail — what "agentic work" actually covers</h3>
@@ -791,7 +1654,7 @@
         </tbody>
       </table>
     </div>
-    <p>That single row difference — <em>Work IQ or not</em> — is the most consequential licensing fact in agent planning. Check which licence your intended users hold before you design anything that depends on Work IQ grounding.</p>
+    <p>That single row difference — <em>Work IQ or not</em> — is the most consequential licensing fact in agent planning. Check which license your intended users hold before you design anything that depends on Work IQ grounding.</p>
 
     <div class="links">
       <span class="tag">Sources — Section 1.1</span>
@@ -813,6 +1676,23 @@
 
     <p>A prompt does not go straight to a model. Understanding the path it does take is what lets you predict which of your agent's requirements the platform will satisfy and which it will quietly drop.</p>
 
+    <div class="dg">
+      <p class="dg-cap"><b>Prompt to answer</b> Five stages, and where each one is decided</p>
+      <div class="pipe p5">
+        <div class="pnode"><div class="rail"><span class="dot">1</span><span class="track"></span></div>
+          <div class="body"><b>You prompt</b><span>Copilot Chat, inside a Microsoft 365 app, or an agent built on the chat harness</span></div></div>
+        <div class="pnode key"><div class="rail"><span class="dot">2</span><span class="track"></span></div>
+          <div class="body"><b>The orchestrator pre-processes it</b><i>Not under your control</i><span>Interprets intent and decides what grounding and which capabilities the answer needs</span></div></div>
+        <div class="pnode cool"><div class="rail"><span class="dot">3</span><span class="track"></span></div>
+          <div class="body"><b>Grounding is retrieved</b><i>Permissions enforced here</i><span>Work IQ for tenant content, Web IQ for public content, plus any declared knowledge and actions</span></div></div>
+        <div class="pnode"><div class="rail"><span class="dot">4</span><span class="track"></span></div>
+          <div class="body"><b>The grounded prompt goes to the model</b><span>Hosted in the Microsoft Cloud; your data is not used for training</span></div></div>
+        <div class="pnode"><div class="rail"><span class="dot">5</span><span class="track"></span></div>
+          <div class="body"><b>The response is post-processed</b><span>Responsible-AI checks, compliance and security review, citation assembly</span></div></div>
+      </div>
+      <p class="dg-foot">Grounding and tool calls run sequentially on this harness &mdash; not in a loop.</p>
+    </div>
+
     <h3>The path a prompt takes</h3>
     <ol>
       <li><strong>You prompt</strong> — from Copilot Chat, from inside Word, Outlook, Teams, Excel or PowerPoint, or from an agent built on the chat harness.</li>
@@ -827,7 +1707,7 @@
     <p><strong>Code interpreter is a capability, not a model.</strong> It lets Copilot — and any declarative agent that declares it — <em>write and run Python in a sandboxed environment managed by Microsoft</em>, then return both the result and the code it generated. The runtime is ephemeral: it spins up for the computation and tears down afterwards. No Azure subscription, no external service, no API keys.</p>
     <p>It exists because language models are unreliable at arithmetic and cannot produce a real file. Code interpreter closes both gaps at once: it computes deterministically, and it emits downloadable artefacts.</p>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Code interpreter — what it does and where it is configured</caption>
         <thead><tr><th>Aspect</th><th>Detail</th></tr></thead>
@@ -836,7 +1716,7 @@
           <tr><td><strong>What it accepts as input</strong></td><td>Uploaded Word, Excel, PowerPoint, PDF, CSV/TSV and TXT/UTF8 files, for analysis or modification.</td></tr>
           <tr><td><strong>Where you enable it — Agent Builder</strong></td><td><strong>On by default.</strong> Toggle it under <em>Skip to configure → Capabilities → "Create documents, charts, and code"</em>.</td></tr>
           <tr><td><strong>Where you enable it — Agents Toolkit</strong></td><td><code>{ "capabilities": [ { "name": "CodeInterpreter" } ] }</code> in the declarative agent manifest — requires manifest schema v1.2 or later.</td></tr>
-          <tr><td><strong>Who can use it</strong></td><td>Users with a Microsoft 365 Copilot licence, and Copilot Chat users without metered usage enabled. Support for in-context agents varies by host.</td></tr>
+          <tr><td><strong>Who can use it</strong></td><td>Users with a Microsoft 365 Copilot license, and Copilot Chat users without metered usage enabled. Support for in-context agents varies by host.</td></tr>
         </tbody>
       </table>
     </div>
@@ -853,7 +1733,7 @@
     </ul>
     <p>A third page, <em>Use code interpreter in a prompt</em>, covers the same capability on the <strong>standard harness</strong> in Copilot Studio — a different surface with different constraints, worth reading only when you have already chosen that harness.</p>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>The code interpreter sandbox — what Microsoft documents</caption>
         <thead><tr><th>Property</th><th>Documented behaviour</th></tr></thead>
@@ -909,7 +1789,7 @@
     <p>Cowork is the Agentic Work capability taken to its conclusion: instead of asking Copilot for an artefact, you delegate an outcome and it executes over time. It is <strong>grounded in Work IQ</strong> — the same intelligence layer, not a connector stitching context together — it is <strong>observable and controllable</strong> at every step, and it is built in partnership with Anthropic, bringing Claude-class agentic capability into Microsoft 365. Every action still runs with your permissions and inside Microsoft's security, identity and governance framework.</p>
 
     <h3>The unit of work is different</h3>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Copilot Chat versus Cowork</caption>
         <thead><tr><th></th><th>Copilot Chat</th><th>Cowork</th></tr></thead>
@@ -922,11 +1802,163 @@
         </tbody>
       </table>
     </div>
+    <div class="dg">
+      <p class="dg-cap"><b>Copilot Chat</b> Click the composer &mdash; you ask, it answers, you iterate</p>
+      <input type="radio" name="cc" id="cc-0" class="sw-in" checked>
+      <input type="radio" name="cc" id="cc-1" class="sw-in">
+      <div class="cpui">
+        <aside class="rail">
+          <div class="brand"><span class="mk"></span><b>Copilot</b></div>
+          <div class="segs"><span class="seg on">Chat</span><span class="seg">Cowork</span></div>
+          <div class="newbtn"><span class="pl">+</span>New chat</div>
+          <ul class="nav">
+            <li><span class="ic r"></span>Search</li>
+            <li><span class="ic"></span>Library</li>
+            <li><span class="ic"></span>Agents &amp; Skills</li>
+            <li><span class="ic"></span>Notebooks</li>
+          </ul>
+          <p class="rail-h">Pinned</p>
+          <ul class="nav pin">
+            <li><span class="ic v"></span>Researcher</li>
+            <li><span class="ic m"></span>Analyst</li>
+            <li><span class="ic b"></span>Sales</li>
+            <li><span class="ic t"></span>Know Your Customer</li>
+          </ul>
+        </aside>
+        <section class="main">
+          <div class="topbar">
+            <span class="tchip iq">Work IQ</span><span class="tchip">Auto &#8964;</span>
+            <span class="rt"><i class="g"></i><i></i></span>
+          </div>
+          <div class="canvas">
+
+            <div class="cpane p0">
+              <p class="hero">Hi, try asking me what's next on your calendar</p>
+              <label class="composer typed" for="cc-1">
+                <span class="pl">+</span>
+                <span class="ph">Summarise the Contoso account for me</span>
+                <span class="send">&uarr;</span>
+              </label>
+              <div class="sugg">
+                <label class="s" for="cc-1"><span class="ms"></span>Suggested</label>
+                <label class="s" for="cc-1">File Insights</label>
+                <label class="s" for="cc-1">Inbox Triage</label>
+                <label class="s" for="cc-1">People Search</label>
+              </div>
+              <p class="clickme">Click to send</p>
+            </div>
+
+            <div class="cpane p1">
+              <div class="thread">
+                <div class="bub me stg d1"><span class="t">Summarise the Contoso account for me</span></div>
+                <div class="bub ai stg d2"><span class="t">Here are the key points from recent emails and meetings&hellip;<small>3 references</small></span></div>
+                <div class="bub me stg d3"><span class="t">Now draft a follow-up email</span></div>
+                <div class="bub ai stg d4"><span class="t">Draft ready &mdash; review and send when you're happy.<small>You act on the output</small></span></div>
+                <div class="bub ai stg d5"><span class="t"><span class="typing"><i></i><i></i><i></i></span></span></div>
+              </div>
+              <div class="foot">
+                <span class="composer"><span class="pl">+</span><span class="ph">Message Copilot</span><span class="send">&uarr;</span></span>
+                <label class="reset" for="cc-0">Reset</label>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+      <p class="dg-foot">Single-step, single session. Close the window and the work stops.</p>
+    </div>
+
+    <div class="dg">
+      <p class="dg-cap"><b>Copilot Cowork</b> Click the composer &mdash; you delegate an outcome and the plan builds itself</p>
+      <input type="radio" name="cw" id="cw-0" class="sw-in" checked>
+      <input type="radio" name="cw" id="cw-1" class="sw-in">
+      <div class="cpui work">
+        <aside class="rail">
+          <div class="brand"><span class="mk"></span><b>Copilot</b></div>
+          <div class="segs"><span class="seg">Chat</span><span class="seg on">Cowork</span></div>
+          <div class="newbtn"><span class="pl">+</span>New task</div>
+          <ul class="nav">
+            <li><span class="ic"></span>My tasks</li>
+            <li><span class="ic"></span>Automations</li>
+            <li><span class="ic r"></span>Customize</li>
+          </ul>
+          <p class="rail-h">Pinned</p>
+          <ul class="nav pin">
+            <li class="sel"><span class="ic v"></span>Weekly reset</li>
+            <li><span class="ic b"></span>Contoso account</li>
+            <li><span class="ic p"></span>Workshop prep</li>
+          </ul>
+        </aside>
+        <section class="main">
+          <div class="topbar">
+            <span class="ttl">Weekly reset</span>
+            <span class="rt"><i class="g"></i><i></i></span>
+          </div>
+          <div class="canvas">
+
+            <div class="cpane p0">
+              <p class="hero">Give me an outcome, not a step</p>
+              <label class="composer typed" for="cw-1">
+                <span class="pl">+</span>
+                <span class="ph">Review last week, clean up my calendar, draft regrets and block focus time&hellip;</span>
+                <span class="send">&uarr;</span>
+              </label>
+              <p class="clickme">Click to start the task</p>
+            </div>
+
+            <div class="cpane p1">
+              <div class="thread">
+                <div class="bub me stg d1"><span class="t">Review last week, clean up my calendar, draft regrets for the conflicts and block three hours of focus time on Tuesday. Then prep a briefing for the Contoso meeting.</span></div>
+                <div class="bub ai stg d3"><span class="t">I've broken this into six steps and started work. I'll check in before anything is sent.<small>Task running &middot; you can close this window</small></span></div>
+              </div>
+              <div class="foot">
+                <span class="composer"><span class="pl">+</span><span class="ph">Message Cowork</span><span class="send">&uarr;</span></span>
+                <label class="reset" for="cw-0">Reset</label>
+              </div>
+            </div>
+
+          </div>
+        </section>
+        <aside class="wsp">
+          <p class="wh">Workspace<span class="x">&times;</span></p>
+
+          <div class="idleonly" style="flex-direction:column;gap:.5rem">
+            <p class="sh">Steps<span class="cnt">0 / 6</span></p>
+            <ul class="wl">
+              <li class="dim"><span class="ck"></span><span>Waiting for a task</span></li>
+            </ul>
+            <p class="sh">Output</p>
+            <ul class="wf"><li class="dim"><span class="ft m">&mdash;</span><span>Nothing yet</span></li></ul>
+          </div>
+
+          <div class="runonly" style="flex-direction:column;gap:.5rem">
+            <p class="sh">Steps<span class="cnt done">6 / 6</span></p>
+            <ul class="wl">
+              <li class="stg d2"><span class="ck ok">&#10003;</span><span>Review last week's calendar</span></li>
+              <li class="stg d3"><span class="ck ok">&#10003;</span><span>Identify conflicts and low-value meetings</span></li>
+              <li class="stg d4"><span class="ck ok">&#10003;</span><span>Draft regrets &mdash; awaiting approval</span></li>
+              <li class="stg d5"><span class="ck run"></span><span>Block focus time Tuesday</span></li>
+              <li class="stg d6"><span class="ck"></span><span>Pull Contoso emails and meeting notes</span></li>
+              <li class="stg d7"><span class="ck"></span><span>Produce the briefing document</span></li>
+            </ul>
+            <p class="sh">Output</p>
+            <ul class="wf">
+              <li class="stg d7"><span class="ft h">H</span><span>Contoso-briefing.docx</span></li>
+              <li class="stg d8"><span class="ft z">X</span><span>calendar-changes.xlsx</span></li>
+            </ul>
+            <p class="sh">References</p>
+            <ul class="wf"><li class="stg d8"><span class="ft m">M</span><span>Last week's meetings</span></li></ul>
+          </div>
+        </aside>
+      </div>
+      <p class="dg-foot">Multi-step workflows across tasks and sources, with an approval gate in front of anything consequential.</p>
+    </div>
+
     <p>Said plainly: <strong>Chat helps you think through your work; Cowork gets the work done.</strong> Chat generates output for you to act on. Cowork performs the coordinated actions itself — with an approval gate in front of anything that sends, posts, schedules or changes a shared system.</p>
 
     <h3>Three words that are not synonyms</h3>
     <p>"Conversation", "task" and "session" get used interchangeably, and they are not the same thing. Getting them straight is what makes the persistence story legible.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Conversation · Task · Session</caption>
         <thead><tr><th>Term</th><th>What it is</th><th>Lifetime</th></tr></thead>
@@ -952,7 +1984,7 @@
 
     <h3>What is ephemeral and what is persistent</h3>
     <p>The line falls in a specific place, and it falls there for a governance reason: <strong>the compute is disposable, the output is enterprise content.</strong></p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>The persistence boundary</caption>
         <thead><tr><th>Ephemeral — scoped to one session</th><th>Persistent — outlives the session</th></tr></thead>
@@ -1031,16 +2063,14 @@
 
     <h3>Your design is the third thing — and it is built around the chosen harness</h3>
     <p>What you actually author is the <strong>design layer</strong>, and it has three components:</p>
-    <div class="table-wrap">
-      <table>
-        <caption>The design layer — what you build</caption>
-        <thead><tr><th>Component</th><th>What it does</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Instructions</strong></td><td>Define the agent's role, scope, tone and boundaries — and direct it on which resources to call, how to fill tool inputs, and how to respond.</td></tr>
-          <tr><td><strong>Knowledge</strong></td><td>The grounding sources the agent answers from — SharePoint, files, Dataverse, connectors, approved websites — so answers are anchored in your content rather than invented.</td></tr>
-          <tr><td><strong>Tools</strong></td><td>What the agent can <em>do</em> beyond talking — connectors, APIs, MCP servers, flows and other agents it can invoke.</td></tr>
-        </tbody>
-      </table>
+    <div class="dg">
+      <p class="dg-cap"><b>The design layer</b> The three things you actually author</p>
+      <div class="triad">
+        <div class="t"><span class="ico">I</span><b>Instructions</b><span>Define the agent's role, scope, tone and boundaries &mdash; and direct it on which resources to call, how to fill tool inputs, and how to respond.</span></div>
+        <div class="t"><span class="ico">K</span><b>Knowledge</b><span>The grounding sources the agent answers from &mdash; SharePoint, files, Dataverse, connectors, approved websites &mdash; so answers are anchored in your content rather than invented.</span></div>
+        <div class="t"><span class="ico">T</span><b>Tools</b><span>What the agent can do beyond talking &mdash; connectors, APIs, MCP servers, flows and other agents it can invoke.</span></div>
+      </div>
+      <p class="triad-base">All three sit <strong>on top of the harness you choose</strong> &mdash; never independently of it</p>
     </div>
     <p>This triad is Microsoft's own packaging, not a teaching device. Copilot Studio puts it plainly: <em>"All harnesses let you combine generative AI, knowledge, and actions to create modern agents built for how your teams actually work."</em> And the triad belongs to the agent rather than to whatever calls it — when a workflow hands a step to an agent, <em>"the agent's own instructions, knowledge, and tools are already configured wherever the agent was built."</em></p>
 
@@ -1051,7 +2081,7 @@
 
     <h3>Why the harness matters to you as a builder</h3>
     <p>The Copilot Studio guidance names four consequences, and each one is a design constraint you inherit the moment you pick a build surface:</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>What the harness choice determines</caption>
         <thead>
@@ -1061,7 +2091,7 @@
           <tr><td><strong>How work gets done</strong></td><td>Some harnesses follow the rules, branches and steps you define. Others take a goal, break it into steps, and adjust as they go.</td></tr>
           <tr><td><strong>How much automates end to end</strong></td><td>A more capable harness handles longer multistep processes across tools, files and intermediate decisions — and recovers when a step fails.</td></tr>
           <tr><td><strong>What you get out of the box</strong></td><td>File creation and editing, skills, memory, and tool-call orchestration are <em>harness</em> capabilities, not model capabilities.</td></tr>
-          <tr><td><strong>How you are billed</strong></td><td>Different harnesses use different pricing — user licence, consumption, or Copilot Credits.</td></tr>
+          <tr><td><strong>How you are billed</strong></td><td>Different harnesses use different pricing — user license, consumption, or Copilot Credits.</td></tr>
         </tbody>
       </table>
     </div>
@@ -1091,7 +2121,7 @@
 
     <p>Section 2 established that <strong>Agent = LLM + Harness</strong>, and that your design layer — instructions, knowledge, tools — is built around whichever harness you choose. Microsoft offers three, and they are not three tiers of one product. They are three different answers to the question <em>"what happens to my instructions, knowledge and tools at runtime?"</em></p>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>The same three design components, interpreted differently per harness</caption>
         <thead>
@@ -1121,7 +2151,7 @@
     </div>
 
     <h3>Copilot chat harness — extend what people already use</h3>
-    <p>The Copilot chat harness lets you <strong>extend Microsoft 365 Copilot Chat</strong>: connect enterprise knowledge so employees get grounded answers without leaving their everyday experience. It runs on current chat models and is built for connecting people to information — an onboarding agent answering from SharePoint is the canonical case. Publishing is to internal teams. Billing is consumption-based, or included in the Microsoft 365 Copilot user subscription licence.</p>
+    <p>The Copilot chat harness lets you <strong>extend Microsoft 365 Copilot Chat</strong>: connect enterprise knowledge so employees get grounded answers without leaving their everyday experience. It runs on current chat models and is built for connecting people to information — an onboarding agent answering from SharePoint is the canonical case. Publishing is to internal teams. Billing is consumption-based, or included in the Microsoft 365 Copilot user subscription license.</p>
     <p>This is the harness most of your users meet first, because it is the one behind <strong>Agent Builder</strong> inside Microsoft 365 Copilot — plus pro-code declarative agents and declarative agents authored in Copilot Studio. There is no environment to provision, no solution to manage, and no publishing pipeline.</p>
     <p><em>Design consequence:</em> instructions are the whole steering mechanism, so the 8,000-character ceiling is a real design budget — and the reason skills exist (Section 3).</p>
 
@@ -1133,7 +2163,7 @@
     <p>The GitHub Copilot harness is the most capable option, built for reasoning-heavy agents and workflows that complete complex business processes. It became generally available on <strong>3 August 2026</strong>. Open <code>copilotstudio.microsoft.com</code> and this is the harness you are presented with first; the standard harness sits behind <em>Other ways to build</em>. That is placement, not a lock-in — Microsoft is explicit that the two run alongside each other and <em>"you choose which harness to use when you create a new agent."</em> Instead of following a fixed script it takes a goal, breaks it into steps, calls tools across connectors, knowledge, MCP and connected agents, and <strong>adjusts when a step fails</strong>. It natively creates and edits Word, Excel, PowerPoint and PDF files, supports <strong>skills and memory</strong>, and runs each task in a secure sandbox governed by Copilot Studio. Usage is billed in <strong>Copilot Credits</strong> — including build and test, not just runtime.</p>
     <p><em>Design consequence:</em> you write fewer mechanics and more intent. Instructions state the goal and the guardrails; the harness supplies the plan, the retries and the recovery you would otherwise have had to author yourself.</p>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Three harnesses, three approaches</caption>
         <thead>
@@ -1147,10 +2177,48 @@
           <tr><td><strong>Works with files</strong></td><td>Not a focus in the harness — but it <strong>generates</strong> Word, Excel, PowerPoint and PDF through <strong>code interpreter</strong></td><td>Not a focus in the harness — but a <strong>tool can do it</strong>: a connector action or agent flow (SharePoint, OneDrive, Excel Online) creates or edits the file. It is <strong>deterministic</strong> — you map the target file, the location and the change yourself, and the agent only triggers it</td><td class="yes">Creates, <strong>edits</strong> and reasons over Word, Excel, PowerPoint and PDF <strong>natively</strong> — no wiring</td></tr>
           <tr><td><strong>Skills &amp; memory</strong></td><td>Skills in preview; no memory</td><td class="no">Not a focus</td><td class="yes">Yes — both, natively</td></tr>
           <tr><td><strong>Publishing</strong></td><td>Internal teams</td><td>Internal teams or external customers</td><td>Internal teams or external customers</td></tr>
-          <tr><td><strong>Billing</strong></td><td>Consumption, or included in the M365 Copilot licence</td><td>Standard-harness licensing</td><td>Copilot Credits (usage-based, including build and test)</td></tr>
+          <tr><td><strong>Billing</strong></td><td>M365 Copilot Basic/Premium License</td><td>Standard-harness licensing</td><td>Copilot Credits (usage-based, including build and test)</td></tr>
         </tbody>
       </table>
     </div>
+
+    <div class="dg">
+      <p class="dg-cap"><b>Pick your harness</b> What each one is built to do</p>
+      <div class="harn">
+        <div class="h">
+          <header><span class="tag2">01</span><h5>Copilot chat harness</h5><em>Extending M365 Copilot Chat with enterprise knowledge</em></header>
+          <ul>
+            <li><b>How it works</b><span>Connects enterprise knowledge to M365 Copilot Chat</span></li>
+            <li><b>You build it in</b><span>Agent Builder, and declarative agents in Copilot Studio</span></li>
+            <li><b>Files</b><span>Generates Word, Excel, PowerPoint and PDF through code interpreter</span></li>
+            <li><b>Skills &amp; memory</b><span>Skills in preview; no memory</span></li>
+            <li class="lic"><b>Publishing &amp; billing</b><span>Internal teams &middot; M365 Copilot Basic/Premium License</span></li>
+          </ul>
+        </div>
+        <div class="h">
+          <header><span class="tag2">02</span><h5>Standard harness</h5><em>Rule-based agents and structured conversations</em></header>
+          <ul>
+            <li><b>How it works</b><span>Follows the topics and rules you define</span></li>
+            <li><b>You build it in</b><span>Copilot Studio</span></li>
+            <li><b>Files</b><span>A tool can do it &mdash; a connector action or agent flow, deterministic and mapped by you</span></li>
+            <li><b>Skills &amp; memory</b><span>Not a focus</span></li>
+            <li class="lic"><b>Publishing &amp; billing</b><span>Internal teams or external customers &middot; Standard-harness licensing</span></li>
+          </ul>
+        </div>
+        <div class="h on">
+          <header><span class="tag2">03</span><h5>GitHub Copilot harness</h5><em>Complex, multi-step business processes</em></header>
+          <ul>
+            <li><b>How it works</b><span>Reasons through a goal on its own, step by step</span></li>
+            <li><b>You build it in</b><span>Copilot Studio</span></li>
+            <li><b>Files</b><span>Creates, edits and reasons over Word, Excel, PowerPoint and PDF natively &mdash; no wiring</span></li>
+            <li><b>Skills &amp; memory</b><span>Yes &mdash; both, natively</span></li>
+            <li class="lic"><b>Publishing &amp; billing</b><span>Internal teams or external customers &middot; Copilot Credits, usage-based</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="dg-foot">Recovery from problems is the dividing line: not a focus on chat, the paths you built on standard, retries and alternative paths on GitHub Copilot.</p>
+    </div>
+
     <p style="font-size:.93rem"><em>The harness you pick is inherited, not negotiated: instruction ceilings, whether tools can be orchestrated across steps, and whether knowledge is reasoned over or merely retrieved are all harness properties. Read "not a focus" as <strong>the harness won't do it for you</strong> rather than impossible — on the standard harness, files are a <strong>wiring</strong> job you author; on the GitHub Copilot harness they are a <strong>capability</strong> you inherit.</em></p>
 
     <div class="callout key">
@@ -1182,7 +2250,7 @@
       <p><strong>No. The harness does not change.</strong> Agent Builder still produces <em>declarative agents running on the Copilot chat harness</em>. Custom skills are a new <em>component inside the declarative agent</em> — not a migration to the GitHub Copilot harness, and not a new runtime. What changes is how you package instructions, not who runs the loop.</p>
     </div>
 
-    <h3>What actually shipped</h3>
+    <h3>What's currently in Microsoft 365 Copilot Agent Builder</h3>
     <ul>
       <li><strong>Custom skills in declarative agents (preview).</strong> Available to organisations in the <strong>Microsoft Frontier Preview</strong>, added either in Agent Builder (upload a <code>.zip</code> package) or with the Microsoft 365 Agents Toolkit (import the skill directory).</li>
       <li><strong>Skills can be authored from a description.</strong> In Copilot chat you can ask Agent Builder to create a reusable skill in natural language, then review it under <em>Configure → Skills</em>.</li>
@@ -1191,13 +2259,99 @@
       <li><strong>Adjacent additions:</strong> AI-generated agent icons, new templates, additional knowledge sources (People, OneNote), and a <em>Copy to Copilot Studio</em> path when an agent outgrows the builder.</li>
     </ul>
 
-    <h3>Why this is easy to misread</h3>
-    <p>The Copilot Studio harness comparison table lists <em>"Skills and memory: Yes"</em> only for the GitHub Copilot harness, and <em>"Not a focus"</em> for the Copilot chat harness. Read literally, that looks like a contradiction with the Agent Builder skills documentation. It is not:</p>
-    <ul>
-      <li>The comparison table describes the harness's <strong>headline design centre</strong>, and it is written from the Copilot Studio authoring surface.</li>
-      <li>Declarative-agent custom skills are a <strong>preview capability of the Microsoft 365 Copilot extensibility stack</strong>, gated behind Frontier, and materially narrower than GitHub Copilot harness skills.</li>
-      <li><strong>Memory did not come along.</strong> Skills arriving in Agent Builder does not give the Copilot chat harness the memory, autonomous multi-step recovery, or the file <em>editing</em> that the GitHub Copilot harness has. (File <em>generation</em> was already available through code interpreter — see Section 1.2.)</li>
-    </ul>
+    <h3>What a maker sees, by license tier</h3>
+    <div class="dg">
+      <p class="dg-cap"><b>Agent Builder</b> The same builder, two different sets of options</p>
+      <input type="radio" name="ab" id="ab-basic" class="sw-in">
+      <input type="radio" name="ab" id="ab-prem" class="sw-in" checked>
+      <div class="sw-bar">
+        <label for="ab-basic">Copilot Chat (Basic)</label>
+        <label for="ab-prem">Microsoft 365 Copilot (Premium)</label>
+      </div>
+      <div class="sw-body">
+
+        <div class="sw-pane pane-basic">
+          <p class="dg-sub">Same page, fewer sections: <strong>no Skills card</strong> and <strong>no Work content</strong>. Knowledge is the sources you add plus, if you switch it on, the public web.</p>
+          <div class="agpage">
+            <div class="aghero">
+                <span class="agav">&#10094;&#10095;</span>
+                <div><b>New Agent</b><span class="aghs">Describe your agent</span></div>
+                <span class="agmodel">Auto &#8964;</span>
+              </div>
+            <div class="agc">
+                <div class="agc-h"><span class="agc-t">Instructions</span><i class="agi">i</i>
+                  <span class="agc-r"><span class="agbtn">Suggest improvements</span></span></div>
+                <div class="ag-field ag-ta">Describe what this agent should do, define its tone, and outline any rules or guidelines it must follow</div>
+              </div>
+            <div class="agc">
+              <div class="agc-h"><span class="agc-t">Knowledge</span><i class="agi">i</i>
+                <span class="agc-r"><span class="agbtn">Suggest improvements</span></span></div>
+              <div class="agdrop">Focus your agent by adding specific knowledge sources<br><span class="agadd">+ Add knowledge</span></div>
+              <div class="ag-row" style="margin-block-start:.4rem"><span class="agrow-ic">&#9673;</span> Web search <span class="ag-tog on"></span></div>
+            </div>
+            <div class="agc">
+                <div class="agc-h"><span class="agc-t">Suggested prompts</span><i class="agi">i</i></div>
+                <div class="ag-sp-head"><span>Title</span><span>Message</span></div>
+                <div class="ag-sp-row"><span class="ag-field">Enter a title</span><span class="ag-field">Enter a message</span></div>
+                <div class="ag-sp-row"><span class="ag-field">Enter a title</span><span class="ag-field">Enter a message</span></div>
+                <div class="ag-add">+ Add a suggested prompt</div>
+              </div>
+          </div>
+        </div>
+
+        <div class="sw-pane pane-prem">
+          <p class="dg-sub">Scroll <strong>Configure</strong> to set the agent up end to end &mdash; name, <strong>Instructions</strong>, <strong>Skills</strong>, <strong>Knowledge</strong> with its <strong>Work content</strong> switches, and <strong>Suggested prompts</strong>.</p>
+          <div class="agpage">
+            <div class="aghero">
+                <span class="agav">&#10094;&#10095;</span>
+                <div><b>New Agent</b><span class="aghs">Describe your agent</span></div>
+                <span class="agmodel">Auto &#8964;</span>
+              </div>
+            <div class="agc">
+                <div class="agc-h"><span class="agc-t">Instructions</span><i class="agi">i</i>
+                  <span class="agc-r"><span class="agbtn">Suggest improvements</span></span></div>
+                <div class="ag-field ag-ta">Describe what this agent should do, define its tone, and outline any rules or guidelines it must follow</div>
+              </div>
+            <div class="agc hl">
+              <div class="agc-h"><span class="agc-t">Skills</span><i class="agi">i</i><span class="agtag pv">Preview</span>
+                <span class="agc-r"><span class="agbtn">+ Add</span></span></div>
+              <div class="agskill"><span class="agtag">1</span><span class="zp">rfp-requirements.zip</span></div>
+              <div class="agskill"><span class="agtag">2</span><span class="zp">response-check.zip</span></div>
+              <div class="agskill"><span class="agtag">3</span><span class="zp">report-render.zip</span></div>
+            </div>
+            <div class="agc">
+              <div class="agc-h"><span class="agc-t">Knowledge</span><i class="agi">i</i>
+                <span class="agc-r"><span class="agbtn">Suggest improvements</span></span></div>
+              <div class="agdrop">Focus your agent by adding specific knowledge sources<br><span class="agadd">+ Add knowledge</span> <span>or just drop files here</span></div>
+              <div class="aggrp">Work content <i class="agi">i</i></div>
+              <div class="ag-row"><span class="agrow-ic"><span class="sq" style="background:var(--c-vio)"></span></span> Cloud files <span class="ag-tog on"></span></div>
+              <div class="ag-row"><span class="agrow-ic"><span class="ic-outlook" style="width:1.05rem;height:1.05rem"></span></span> Outlook <span class="ag-tog on"></span></div>
+              <div class="ag-row"><span class="agrow-ic"><span class="ic-teams" style="width:1.05rem;height:1.05rem"></span></span> Teams <span class="ag-tog on"></span></div>
+              <div class="ag-row"><span class="agrow-ic"><span class="sq" style="background:var(--plum)"></span></span> Copilot connectors <span class="agtag">None</span> <span class="ag-tog on"></span></div>
+              <div class="ag-row"><span class="agrow-ic">&#9673;</span> Web search <span class="ag-tog on"></span></div>
+              <div class="ag-row"><span class="agrow-ic">&#128206;</span> Attachments <i class="agi">i</i> <span class="agtag">None</span></div>
+            </div>
+            <div class="agc">
+                <div class="agc-h"><span class="agc-t">Suggested prompts</span><i class="agi">i</i></div>
+                <div class="ag-sp-head"><span>Title</span><span>Message</span></div>
+                <div class="ag-sp-row"><span class="ag-field">Enter a title</span><span class="ag-field">Enter a message</span></div>
+                <div class="ag-sp-row"><span class="ag-field">Enter a title</span><span class="ag-field">Enter a message</span></div>
+                <div class="ag-add">+ Add a suggested prompt</div>
+              </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="lvdiff">
+        <p class="lvd-h">What Premium adds</p>
+        <ul>
+          <li><strong>Skills</strong> card (preview) &mdash; absent on Basic.</li>
+          <li><strong>Work content</strong> switches under Knowledge &mdash; Cloud files, Outlook, Teams and Copilot connectors.</li>
+        </ul>
+        <p>Both licenses share the agent header, <strong>Instructions</strong>, <strong>Knowledge</strong> with <strong>Web search</strong>, and <strong>Suggested prompts</strong> &mdash; and on both, every agent can write code and create Word, Excel and PowerPoint files.</p>
+      </div>
+      <p class="dg-foot">The availability of knowledge sources and capabilities differs based on the user's license. Memory did not come along with skills &mdash; neither tier has it.</p>
+    </div>
 
     <div class="callout watch">
       <span class="tag">Boundaries that still bind</span>
@@ -1225,7 +2379,7 @@
     <h3>Agent Builder (Premium user) vs the Copilot Studio GitHub Copilot harness</h3>
     <p>Both surfaces now offer skills, and the skill artefact looks the same on both — a <code>SKILL.md</code> with optional resources and scripts. That surface similarity is exactly why the two get conflated. The differences that matter sit underneath it.</p>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>The two build surfaces, compared</caption>
         <thead>
@@ -1283,7 +2437,7 @@
 
     <h3>Licensing — the difference that usually decides it</h3>
     <p>The two surfaces are not two prices for the same thing. They are two billing models, and the second one bills earlier than people expect.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>How each is paid for</caption>
         <thead>
@@ -1293,11 +2447,11 @@
           <tr>
             <td><strong>To build</strong></td>
             <td>Included. <em>"Your Microsoft 365 Copilot license includes the agents you build by using Agent Builder"</em></td>
-            <td>Maker licence is <strong>$0</strong>, but <strong>credits are consumed from the moment you start building</strong> — authoring, previewing, testing and generating evaluations all charge</td>
+            <td>Maker license is <strong>$0</strong>, but <strong>credits are consumed from the moment you start building</strong> — authoring, previewing, testing and generating evaluations all charge</td>
           </tr>
           <tr>
             <td><strong>To run, for a licensed user</strong></td>
-            <td class="yes">No extra charge. Generative answers and tenant Graph grounding are zero-rated for M365 Copilot licence holders</td>
+            <td class="yes">No extra charge. Generative answers and tenant Graph grounding are zero-rated for M365 Copilot license holders</td>
             <td class="no">Still billed. <em>"Creation and runtime activities consume Copilot Credits regardless of the user's license"</em></td>
           </tr>
           <tr>
@@ -1313,10 +2467,10 @@
         </tbody>
       </table>
     </div>
-    <p>Two consequences follow, and both are easy to miss. First, <strong>the $30 Microsoft 365 Copilot licence includes Copilot Studio use rights for the <em>standard</em> harness, not the GitHub Copilot harness</strong> — and that included usage is bounded by fair-use limits Microsoft does not publish a number for. Second, publishing a GitHub Copilot harness agent <em>into</em> Microsoft 365 Copilot does not make it free to the people using it: the licence that zero-rates a declarative agent does not zero-rate this one.</p>
+    <p>Two consequences follow, and both are easy to miss. First, <strong>the $30 Microsoft 365 Copilot license includes Copilot Studio use rights for the <em>standard</em> harness, not the GitHub Copilot harness</strong> — and that included usage is bounded by fair-use limits Microsoft does not publish a number for. Second, publishing a GitHub Copilot harness agent <em>into</em> Microsoft 365 Copilot does not make it free to the people using it: the license that zero-rates a declarative agent does not zero-rate this one.</p>
     <div class="callout key">
       <span class="tag">How to choose</span>
-      <p>Build in <strong>Agent Builder</strong> when the work is grounded Q&amp;A plus packaged procedure, for people who already hold a Copilot licence — the marginal cost is zero and the governance is inherited. Move to the <strong>GitHub Copilot harness</strong> when you genuinely need memory across conversations, file editing, or multi-step recovery — and price it, because credits start accruing during the build, not at go-live.</p>
+      <p>Build in <strong>Agent Builder</strong> when the work is grounded Q&amp;A plus packaged procedure, for people who already hold a Copilot license — the marginal cost is zero and the governance is inherited. Move to the <strong>GitHub Copilot harness</strong> when you genuinely need memory across conversations, file editing, or multi-step recovery — and price it, because credits start accruing during the build, not at go-live.</p>
     </div>
 
     <div class="callout key">
@@ -1336,7 +2490,7 @@
         <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/skills-overview">Agent skills on the GitHub Copilot harness — portable packages, reuse across agents</a></li>
         <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/created-files-overview">Files created by an agent — conversation-scoped retention</a></li>
         <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview">Overview of usage-based billing — credits charged from the moment you build</a></li>
-        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-usage-github-copilot-harness">Manage usage for GitHub Copilot harness agents — what an M365 Copilot licence does not cover</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-usage-github-copilot-harness">Manage usage for GitHub Copilot harness agents — what an M365 Copilot license does not cover</a></li>
         <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/cost-considerations">Cost considerations for Microsoft 365 Copilot extensibility</a></li>
       </ul>
     </div>
@@ -1363,7 +2517,7 @@
 └── skills/                  # custom skills, preview               (optional)
     └── my-skill/SKILL.md</pre>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Declarative agent — component inventory (manifest v1.8)</caption>
         <thead><tr><th>Component</th><th>What it is</th><th>Limit / note</th></tr></thead>
@@ -1383,7 +2537,7 @@
 
     <h3>B. Standard harness — the authored agent</h3>
     <p>Here you are assembling a conversation design, not just a configuration. The building blocks:</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Standard harness — component inventory</caption>
         <thead><tr><th>Component</th><th>What it controls</th></tr></thead>
@@ -1405,7 +2559,7 @@
 
     <h3>C. GitHub Copilot harness — the reasoning agent</h3>
     <p>Configured from the <strong>Build</strong> tab (the chat harness uses <em>Configure</em>). Instructions are the primary mechanism for controlling behaviour — the enhanced orchestration runtime interprets them rather than executing an authored path.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>GitHub Copilot harness — component inventory</caption>
         <thead><tr><th>Component</th><th>What it adds over the other harnesses</th></tr></thead>
@@ -1468,7 +2622,7 @@
     <p>A worked example from the documentation: a finance team builds a <em>quarterly business review</em> skill that bundles the instructions for producing the review, scripts that transform data and generate charts, and assets such as financial models, KPI definitions and branded slide templates. The agent reaches for the skill when a user asks for that task.</p>
 
     <h3>Why skills instead of longer instructions</h3>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>The four stated benefits</caption>
         <thead><tr><th>Benefit</th><th>Mechanism</th></tr></thead>
@@ -1534,7 +2688,7 @@
     </div>
 
     <h3>4.1.1 · Why "just let the model compare it" does not hold</h3>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Three failure modes of instruction-only comparison</caption>
         <thead><tr><th>Failure</th><th>What happens</th><th>Why it is structural</th></tr></thead>
@@ -1583,7 +2737,7 @@
 
     <h3>4.1.3 · What the agent handles — two comparison cases</h3>
     <p>"Compare these documents" covers two distinct jobs. Supporting both is worth the effort; supporting more than both is where this design starts to strain.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>The two supported cases</caption>
         <thead><tr><th></th><th>Case A — two versions</th><th>Case B — one baseline, many candidates</th></tr></thead>
@@ -1614,7 +2768,7 @@
 
     <h3>4.1.4 · The skill set</h3>
     <p>Five skills, against a budget of eight. The spare capacity is deliberate — leave room for the skill you discover you need in testing.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Proposed skills and their contracts</caption>
         <thead><tr><th>Skill</th><th>Responsibility</th><th>Produces</th><th>Weight</th></tr></thead>
@@ -1690,7 +2844,7 @@ fallback:
   "hash":   "sha1:9f2c...",
   "loc":    { "para": 412 }
 }</pre>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Four decisions that make the extractor flexible</caption>
         <thead><tr><th>Decision</th><th>Why it matters</th></tr></thead>
@@ -1726,7 +2880,7 @@ fallback:
       <summary><h3>4.1.4.4 · Skill 4 — <code>rule-check</code>, and where guidelines should live</h3><span class="hint">Show</span></summary>
       <div class="topic-body">
     <p>Should the guidelines be attached as a knowledge source? The question has a two-part answer, because "the guidelines" are usually two different artefacts wearing one name: <strong>the rules you test against</strong>, and <strong>the policy those rules come from</strong>. They belong in different places.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Where each kind of guideline belongs</caption>
         <thead><tr><th>Artefact</th><th>Where it lives</th><th>Why</th></tr></thead>
@@ -1771,7 +2925,7 @@ rules:
     evidence: required
     severity: major
     authority: "Policy 9.1"</pre>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Five principles for writing rules people can act on</caption>
         <thead><tr><th>Principle</th><th>In practice</th></tr></thead>
@@ -1818,12 +2972,12 @@ rules:
     <p>The design in 4.1 is deliberately harness-agnostic: five skills, typed artefacts, a determinism split. What changes between harnesses is not <em>what</em> the agent does but <strong>how many pieces you are allowed to break the work into</strong>, and <strong>what survives between them</strong>. Three decisions follow, in this order.</p>
 
     <h3>4.2.1 · The execution model you are designing against</h3>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Constraints this design has to survive on the Copilot chat harness</caption>
         <thead><tr><th>Constraint</th><th>Consequence for this build</th></tr></thead>
         <tbody>
-          <tr><td><strong>Custom skills are in preview, gated on the Frontier Program</strong></td><td>A qualifying Copilot licence is not sufficient — your organisation must be enrolled. Confirm enrolment before you start building. This is the first thing to check, not the last.</td></tr>
+          <tr><td><strong>Custom skills are in preview, gated on the Frontier Program</strong></td><td>A qualifying Copilot license is not sufficient — your organisation must be enrolled. Confirm enrolment before you start building. This is the first thing to check, not the last.</td></tr>
           <tr><td><strong>Package budget</strong></td><td>8 skills per agent, <code>.zip</code> up to 50 MB, 25 MB per file, 350 files across all skills, directory depth 3, and skill instructions under 20,000 characters. Templates and rule packs are the only heavy assets here — keep them lean.</td></tr>
           <tr><td><strong>The sandbox is closed</strong></td><td>No network access, no runtime package installation, no authenticated calls from scripts. Standard library only, unless you have confirmed a package is present. This is why the extractor is designed around <code>zipfile</code> and <code>difflib</code>.</td></tr>
           <tr><td><strong>Sequential orchestration, no loops</strong></td><td>Grounding and tool calls run in sequence rather than in an iterative plan. Design for "one pass produces a complete answer", with the user re-prompting between stages, rather than an autonomous pipeline.</td></tr>
@@ -1838,7 +2992,7 @@ rules:
     </div>
 
     <p>That single sentence is worth reading twice, because it is the difference between a design that works and one that fails on its second turn. Five skills does <strong>not</strong> have to mean five script executions. The skills stay separate — separate <code>SKILL.md</code> files, separate triggers, separate responsibilities — while the heavy work collapses into fewer invocations:</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>The chain, folded to survive a stateless sandbox</caption>
         <thead><tr><th>Turn</th><th>What runs</th><th>Why it folds this way</th></tr></thead>
@@ -1857,7 +3011,7 @@ rules:
     <p>Start by discarding a tempting framing. <strong>The agent does not need to know the document type.</strong> It needs to know the extraction profile and the rule pack. Document type is only a proxy for those, and a lossy one: two contracts from different counterparties may number their clauses completely differently, while a requirements spec and a master agreement may parse identically. Classifying by genre and inferring structure from it adds a failure point and buys nothing.</p>
     <p><strong>Classify on structure instead.</strong> Have the extractor's <code>detect</code> mode sample the opening paragraphs and report which candidate patterns matched and how often. The evidence is a fact; only the proposal drawn from it is generative; and the user confirms the proposal.</p>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Deterministic or generative classification</caption>
         <thead><tr><th></th><th>Deterministic — a closed list</th><th>Generative — open classification</th></tr></thead>
@@ -1885,7 +3039,7 @@ rules:
 
     <h3>4.2.3 · Agent Builder or the GitHub Copilot harness</h3>
     <p>Both can run this design. They position differently, and the deciding factor is rarely the one people reach for first.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Positioning for this agent</caption>
         <thead><tr><th></th><th>Agent Builder — M365 Copilot (Premium)</th><th>Copilot Studio — GitHub Copilot harness</th></tr></thead>
@@ -1951,7 +3105,7 @@ rules:
       <li><strong>Where components are present across respondents, how do they differ?</strong> This is the comparison proper — but it runs between <em>responses</em>, not between a response and the RFP, and only on the components everyone supplied.</li>
     </ul>
     <p>The first two questions are why this agent earns its place. A silence is invisible to a reader working through documents one at a time, and silences are exactly what an RFP review exists to catch.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>What changes from the 4.1 design</caption>
         <thead><tr><th></th><th>Section 4.1 — document comparison</th><th>Section 5 — RFP checking</th></tr></thead>
@@ -1968,31 +3122,28 @@ rules:
 
     <h3 id="s5t2">5.2 · The workflow, and who owns each part of it</h3>
     <p>Three steps, end to end. The value of writing them out before designing anything is that each step splits cleanly into work a script must do and work a model must do — and the split is not the same in each step.</p>
-    <div class="table-wrap">
-      <table>
-        <caption>The RFP Checker workflow</caption>
-        <thead><tr><th>Step</th><th>Input</th><th>What happens</th><th>Output</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>1 · Derive</strong></td>
-            <td>The baseline — the issued RFP</td>
-            <td>Read every requirement the RFP imposes and give each one a <strong>Requirement ID</strong>. Flag any requirement whose threshold the RFP left unresolved.</td>
-            <td>The requirement register</td>
-          </tr>
-          <tr>
-            <td><strong>2 · Check</strong></td>
-            <td>The register + every submission</td>
-            <td>For each requirement × each respondent, find the passage that addresses it and record a verdict. Anything a respondent offers that the register does not ask for goes to <strong>[additional note]</strong>.</td>
-            <td>Per-response extracts, plus additional notes</td>
-          </tr>
-          <tr>
-            <td><strong>3 · Report</strong></td>
-            <td>Extracts + notes</td>
-            <td>Render one file: each response's extract set out against the requirements, then a comparison table across respondents.</td>
-            <td>A single <code>.html</code> report</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="dg">
+      <p class="dg-cap"><b>The RFP Checker workflow</b> Three steps &mdash; each one's output is the next one's input</p>
+      <div class="flow3">
+        <div class="st">
+          <header><span class="n">Step 1</span><b>Derive</b></header>
+          <div class="io"><span class="lbl">In</span><span class="chip">The baseline &mdash; the issued RFP</span></div>
+          <p>Read every requirement the RFP imposes and give each one a <strong>Requirement ID</strong>. Flag any requirement whose threshold the RFP left unresolved.</p>
+          <div class="out"><span class="lbl">Out</span><span>The requirement register</span></div>
+        </div>
+        <div class="st">
+          <header><span class="n">Step 2</span><b>Check</b></header>
+          <div class="io"><span class="lbl">In</span><span class="chip">The register + every submission</span></div>
+          <p>For each requirement &times; each respondent, find the passage that addresses it and record a verdict. Anything a respondent offers that the register does not ask for goes to <strong>[additional note]</strong>.</p>
+          <div class="out"><span class="lbl">Out</span><span>Per-response extracts, plus additional notes</span></div>
+        </div>
+        <div class="st">
+          <header><span class="n">Step 3</span><b>Report</b></header>
+          <div class="io"><span class="lbl">In</span><span class="chip">Extracts + notes</span></div>
+          <p>Render one file: each response's extract set out against the requirements, then a comparison table across respondents.</p>
+          <div class="out"><span class="lbl">Out</span><span>A single <code>.html</code> report</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="table-wrap">
@@ -2028,7 +3179,7 @@ rules:
     <h3 id="s5t3">5.3 · The agent design — instructions and skills</h3>
     <p>This is built in <strong>Agent Builder</strong>, so the parts are the declarative-agent inventory from 2.3: a name and description, an instruction block under 8,000 characters, capabilities, conversation starters, and skills. Nothing else is available, and nothing else is needed.</p>
 
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Agent configuration</caption>
         <thead><tr><th>Component</th><th>Setting</th></tr></thead>
@@ -2133,7 +3284,7 @@ rules:
 
 <h4>Suggested prompt</h4>
     <p>Agent Builder's conversation starters have two fields: a <strong>Title</strong>, which appears as a clickable card on the agent's front door, and a <strong>Message</strong>, which is what gets sent when it is selected. One starter is enough here — the protocol is fixed, so there is only one way to begin.</p>
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Conversation starter — one title, one message</caption>
         <thead><tr><th style="width:8rem">Field</th><th>Value</th></tr></thead>
@@ -2147,22 +3298,35 @@ rules:
 
         <h3 id="s5t4">5.4 · Try it yourself! — Build it</h3>
     <p>The design above ships as four files, which accompany this workbook. Everything in them is derived from the preceding topics — the instruction block from 5.3, the three skills from the workflow in 5.2.</p>
-    <div class="table-wrap">
-      <table>
-        <caption>The build artefacts</caption>
-        <thead><tr><th>File</th><th>Contents</th><th>Goes where</th></tr></thead>
-        <tbody>
-          <tr><td><code>instructions.md</code></td><td>The agent instruction block — role, scope, the three skills with their call conditions, protocol, refusal rules, verdict vocabulary, boundary. About 6,400 characters against the 8,000 ceiling.</td><td>Paste into <em>Configure → Instructions</em></td></tr>
-          <tr><td><code>rfp-requirements.zip</code></td><td><code>SKILL.md</code> + <code>extract_requirements.py</code></td><td rowspan="3">Upload at <em>Configure → Skills → Add</em>, one at a time</td></tr>
-          <tr><td><code>response-check.zip</code></td><td><code>SKILL.md</code> + <code>check_responses.py</code></td></tr>
-          <tr><td><code>report-render.zip</code></td><td><code>SKILL.md</code> + <code>render_report.py</code> + the HTML template</td></tr>
-        </tbody>
-      </table>
+    <div class="dg">
+      <p class="dg-cap"><b>The build artefacts</b> Four files &mdash; one instruction block, three skills</p>
+      <div class="arts">
+        <div class="a wide k1">
+          <span class="fn">instructions.md<span class="tg">Instructions</span></span>
+          <p>The agent instruction block &mdash; role, scope, the three skills with their call conditions, protocol, refusal rules, verdict vocabulary, boundary. About 6,400 characters against the 8,000 ceiling.</p>
+          <span class="go">Paste into <b>Configure &rarr; Instructions</b></span>
+        </div>
+        <div class="a k2">
+          <span class="fn">rfp-requirements.zip<span class="tg">Skill 1</span></span>
+          <p><code>SKILL.md</code> + <code>extract_requirements.py</code></p>
+          <span class="go">Upload at <b>Configure &rarr; Skills &rarr; Add</b>, one at a time</span>
+        </div>
+        <div class="a k3">
+          <span class="fn">response-check.zip<span class="tg">Skill 2</span></span>
+          <p><code>SKILL.md</code> + <code>check_responses.py</code></p>
+          <span class="go">Upload at <b>Configure &rarr; Skills &rarr; Add</b>, one at a time</span>
+        </div>
+        <div class="a wide k4">
+          <span class="fn">report-render.zip<span class="tg">Skill 3</span></span>
+          <p><code>SKILL.md</code> + <code>render_report.py</code> + the HTML template</p>
+          <span class="go">Upload at <b>Configure &rarr; Skills &rarr; Add</b>, one at a time</span>
+        </div>
+      </div>
     </div>
 
     <h4>Steps</h4>
     <ol>
-      <li><strong>Confirm the prerequisite.</strong> Custom skills are preview and Frontier-gated (4.2.1). A Copilot licence alone is not enough — check enrolment before anything else.</li>
+      <li><strong>Confirm the prerequisite.</strong> Custom skills are preview and Frontier-gated (4.2.1). A Copilot license alone is not enough — check enrolment before anything else.</li>
       <li><strong>Create the agent.</strong> From the Copilot Chat main UI, go to <em>Agents</em> in the side bar, then <em>Create agent</em>. Once you are in, select <em>Skip</em> to go straight to the Agent Builder configuration UI rather than the describe flow. Name it <strong>RFP Checker</strong>.</li>
       <li><strong>Give it the description.</strong> This is what users see before they open the agent, so it should say what the agent establishes and what it will not do.
         <div class="codecell compact">
@@ -2493,7 +3657,7 @@ Put SKILL.md at the root of the zip, not inside a folder.</pre>
     <details class="topic">
       <summary><h4>The requirement register and expected verdicts</h4><span class="hint">Show</span></summary>
       <div class="topic-body">
-    <div class="table-wrap">
+    <div class="table-wrap lc">
       <table>
         <caption>Requirement register with expected verdicts — Caldova RFP, three respondents</caption>
         <thead><tr><th>ID</th><th>Requirement (source)</th><th>Sabyn</th><th>Kristos</th><th>Annterra</th></tr></thead>
