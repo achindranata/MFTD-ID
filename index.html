@@ -1206,6 +1206,42 @@
     .wq-card.wq-on, .wq-bubs.wq-on .wq-bub { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   }
 
+  /* ---------- appendix: take-an-account checklist ---------- */
+  #sapx .tk { width: 3.4rem; text-align: center; }
+  #sapx td.tk { vertical-align: middle; }
+  #sapx td.tk label {
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; padding: .15rem;
+  }
+  #sapx .tick { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+  #sapx td.tk label span {
+    width: 1.05rem; height: 1.05rem; border-radius: 5px;
+    border: 1.5px solid var(--c-vio); background: var(--surface);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background .18s ease, border-color .18s ease;
+  }
+  #sapx td.tk label span::after {
+    content: "\2713"; font-size: .72rem; font-weight: 700; color: #fff;
+    opacity: 0; transform: scale(.6); transition: opacity .18s ease, transform .18s ease;
+  }
+  #sapx td.tk label:hover span { background: var(--c-vio-soft); }
+  #sapx .tick:checked + span { background: var(--c-vio); border-color: var(--c-vio); }
+  #sapx .tick:checked + span::after { opacity: 1; transform: scale(1); }
+  #sapx .tick:focus-visible + span { outline: 2px solid var(--c-vio); outline-offset: 2px; }
+
+  /* a ticked row reads as taken */
+  #sapx tbody tr:has(.tick:checked) td { color: var(--ink-faint); }
+  #sapx tbody tr:has(.tick:checked) td strong,
+  #sapx tbody tr:has(.tick:checked) td code {
+    text-decoration: line-through; text-decoration-thickness: 1.5px;
+    opacity: .6;
+  }
+  #sapx tbody tr:has(.tick:checked) td:nth-child(2) { opacity: .6; }
+  @media print {
+    #sapx td.tk label span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #sapx .tick:checked + span::after { color: #fff; }
+  }
+
   /* ---------- collapsible topic ---------- */
   details.topic { margin-block: 1.5rem 1.2rem; }
   details.topic > summary {
@@ -3717,23 +3753,23 @@ Put SKILL.md at the root of the zip, not inside a folder.</pre>
       <h2 class="sec-title">Demo accounts</h2>
     </div>
 
-    <p>Use one of the accounts below for the hands-on build in <strong>Section 5</strong>. Take the number assigned to your group &mdash; one account per participant, so nobody is signed in twice.</p>
+    <p>Use one of the accounts below for the hands-on build in <strong>Section 5</strong>. Take the number assigned to your group &mdash; one account per participant, so nobody is signed in twice. Tick the box to strike an account off your own copy of this list.</p>
 
     <div class="table-wrap lc">
       <table>
         <caption>Workshop demo accounts</caption>
-        <thead><tr><th>No</th><th>Email</th><th>Password</th></tr></thead>
+        <thead><tr><th class="tk">Taken</th><th>No</th><th>Email</th><th>Password</th></tr></thead>
         <tbody>
-            <tr><td><strong>1</strong></td><td><code>DemoAccount1@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>2</strong></td><td><code>DemoAccount2@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>3</strong></td><td><code>DemoAccount3@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>4</strong></td><td><code>DemoAccount4@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>5</strong></td><td><code>DemoAccount5@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>6</strong></td><td><code>DemoAccount6@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>7</strong></td><td><code>DemoAccount7@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>8</strong></td><td><code>DemoAccount8@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>9</strong></td><td><code>DemoAccount9@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
-            <tr><td><strong>10</strong></td><td><code>DemoAccount10@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>1</strong></td><td><code>DemoAccount1@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>2</strong></td><td><code>DemoAccount2@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>3</strong></td><td><code>DemoAccount3@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>4</strong></td><td><code>DemoAccount4@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>5</strong></td><td><code>DemoAccount5@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>6</strong></td><td><code>DemoAccount6@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>7</strong></td><td><code>DemoAccount7@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>8</strong></td><td><code>DemoAccount8@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>9</strong></td><td><code>DemoAccount9@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
+            <tr><td class="tk"><label><input type="checkbox" class="tick"><span></span></label></td><td><strong>10</strong></td><td><code>DemoAccount10@ABSx18604122.OnMicrosoft.com</code></td><td><code>Frontier260922</code></td></tr>
         </tbody>
       </table>
     </div>
