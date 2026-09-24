@@ -229,6 +229,24 @@
     color: var(--ink-faint);
   }
   .meta b { color: var(--ink-soft); font-weight: 600; }
+  .pdf-dl { display: flex; align-items: center; gap: .7rem; margin: 1.1rem 0 0; }
+  .pdf-dl a {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .55rem 1.05rem; border-radius: 999px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    font-size: .86rem; font-weight: 600; letter-spacing: -.005em;
+    box-shadow: 0 6px 18px rgba(15,108,189,.22);
+    transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+  }
+  .pdf-dl a:hover { background: var(--accent-deep); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,108,189,.28); }
+  .pdf-dl a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .pdf-dl .ic {
+    width: 1.15rem; height: 1.15rem; border-radius: 50%;
+    background: rgba(255,255,255,.22); display: inline-flex;
+    align-items: center; justify-content: center; font-size: .78rem; line-height: 1;
+  }
+  .pdf-dl .hint { font-size: .76rem; color: var(--ink-faint); }
+  @media print { .pdf-dl { display: none !important; } }
 
   /* ---------- contents ---------- */
   .toc {
@@ -1515,6 +1533,12 @@
         <span>Copilot and Agents Solution Engineer, Microsoft</span>
       </div>
     </div>
+    <p class="pdf-dl">
+      <a href="https://achindranata.github.io/MFTD-ID/mftd-id-track2-workbook.pdf" download="mftd-id-track2-workbook.pdf">
+        <span class="ic" aria-hidden="true">&#8595;</span>Download this as a PDF
+      </a>
+      <span class="hint">A4, print-ready</span>
+    </p>
   </header>
 
 
